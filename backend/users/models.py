@@ -62,6 +62,7 @@ class User(AbstractUser):
         null=False,
         help_text=f'Набор символов не более {settings.LENG_DATA_USER}.'
     )
+
     role = models.CharField(
         'Роль пользователя',
         max_length=max(len(role) for role, _ in ROLE_CHOICES),
@@ -91,3 +92,35 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.username} {self.email}'
+
+
+class Follow(models.Model):
+    """Модель подписчика."""
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower',
+        verbose_name='Подписчик',
+    )
+
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following',
+        verbose_name='Автор',
+    )
+
+    class Meta:
+        verbose_name = 'подписка'
+        verbose_name_plural = 'подписки'
+        ordering = ('-id',)
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'],
+                name='unique_follow'
+            )
+        ]
+
+    def __str__(self):
+        return f'Пользователь {self.user} подписан на {self.author}'
