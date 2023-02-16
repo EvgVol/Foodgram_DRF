@@ -112,8 +112,8 @@ class Follow(models.Model):
     )
 
     class Meta:
-        verbose_name = 'подписка'
-        verbose_name_plural = 'подписки'
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
         ordering = ('-id',)
         constraints = [
             models.UniqueConstraint(
