@@ -1,7 +1,5 @@
-from datetime import datetime
+import re
 
-from django.conf import settings
-from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.exceptions import ValidationError
 
 
@@ -30,4 +28,3 @@ def username_me(value):
             'Имя пользователя "me" не разрешено.' 
         ) 
     return value 
-
