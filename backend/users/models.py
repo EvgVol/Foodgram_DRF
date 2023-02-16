@@ -8,6 +8,16 @@ from .validators import validate_username, username_me
 class User(AbstractUser):
     """Модель пользователя."""
 
+    USER = 'user'
+    ADMIN = 'admin'
+    MODERATOR = 'moderator'
+
+    ROLE_CHOICES = (
+        (USER, 'Пользователь'),
+        (ADMIN, 'Администратор'),
+        (MODERATOR, 'Модератор'),
+    )
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = (
         'username',
@@ -52,6 +62,21 @@ class User(AbstractUser):
         null=False,
         help_text=f'Набор символов не более {settings.LENG_DATA_USER}.'
     )
+    role = models.CharField(
+        'Роль пользователя',
+        max_length=max(len(role) for role, _ in ROLE_CHOICES),
+        choices=ROLE_CHOICES,
+        default=USER,
+        blank=True
+    )
+
+    @property
+    def is_moderator(self):
+        return self.role == self.MODERATOR
+
+    @property
+    def is_admin(self):
+        return self.role == self.ADMIN or self.is_superuser or self.is_staff
 
     class Meta:
         ordering = ('id',)
