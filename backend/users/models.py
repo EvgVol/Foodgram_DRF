@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.db import models
+from django.db import models, F, Q
 
 from .validators import validate_username, username_me
 
@@ -119,6 +119,10 @@ class Follow(models.Model):
             models.UniqueConstraint(
                 fields=['user', 'author'],
                 name='unique_follow'
+            ),
+            models.CheckConstraint(
+                check=~Q(author=F('user')),
+                name='no_self_follow'
             )
         ]
 
