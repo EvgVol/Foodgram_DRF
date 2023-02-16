@@ -6,12 +6,12 @@ from .views import UsersViewSet
 app_name = 'users'
 
 
-router_v1 = routers.DefaultRouter()
+router = routers.DefaultRouter()
 
-router_v1.register(r'users', UsersViewSet, basename='users')
+router.register(r'users', UsersViewSet, basename='users')
 
 urlpatterns = [
-    path('', include(router_v1.urls)),
-    path('', include('djoser.urls')),
+    path('', incluse(router.urls)),
     path('auth/', include('djoser.urls.authtoken')),
+    path('users/me/', UserView.as_view(), name='me'),
 ]
