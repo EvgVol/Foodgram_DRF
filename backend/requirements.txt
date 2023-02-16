@@ -3,3 +3,13 @@ Django==3.2.18
 pytz==2022.7.1
 sqlparse==0.4.3
 typing_extensions==4.4.0
+django-filter==22.1
+djangorestframework==3.13.1
+djangorestframework-simplejwt==4.8.0
+djoser==2.1.0
+flake8==5.0.4
+Pillow==9.2.0
+psycopg2-binary==2.9.3
+PyJWT==2.4.0
+python-dotenv==0.20.0
+requests==2.28.1
