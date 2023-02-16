@@ -1,12 +1,16 @@
+from django.contrib.auth import get_user_model
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from .models import User
+from .models import User, Follow
 from .validators import validate_username, username_me
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserCreateSerializer(UserCreateSerializer):
     """Сериализатор для новых пользователей."""
+
+    is_subscribed = serializers.SerializerMethodField()
 
     username = serializers.CharField(
         required=True,
@@ -16,38 +20,31 @@ class UserSerializer(serializers.ModelSerializer):
         ]
     )
 
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+
     class Meta:
-        abstract = True
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', )
+        fields = ('id', 'username', 'password',
+                  'email', 'first_name', 'last_name',)
+        extra_kwargs = {
+            'email': {'required': True},
+            'username': {'required': True},
+            'password': {'required': True},
+            'first_name': {'required': True},
+            'last_name': {'required': True},
+        }
 
-# class SingUpSerializer(serializers.Serializer):
-#     """Сериализатор для регистрации."""
-
-#     email = serializers.EmailField(
-#         required=True,
-#         validators=[UniqueValidator(queryset=User.objects.all())]
-#     )
-#     username = serializers.CharField(
-#         required=True,
-#         validators=[validate_username, ]
-#     )
-
-#     def validate_username(self, value):
-#         return username_me(value)
+    def validate_username(self, value):
+        return username_me(value)
 
 
-# class GetTokenSerializer(serializers.Serializer):
-#     """Сериализатор для получения токена при регистрации."""
+class UserSerializer(UserSerializer):
+    """Сериализатор для всех пользователей."""
 
-#     username = serializers.CharField(
-#         required=True,
-#         validators=(validate_username, )
-#     )
-#     confirmation_code = serializers.CharField(required=True)
+    is_subscribed = serializers.SerializerMethodField()
 
-#     def validate_username(self, value):
-#         return username_me(value)
-
-
-
+    class Meta:
+        
