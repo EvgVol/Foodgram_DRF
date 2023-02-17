@@ -4,7 +4,7 @@ from rest_framework.validators import UniqueValidator
 
 from .models import User, Follow
 from .validators import validate_username, username_me
-
+from api.models import Recipe
 
 class UserCreateSerializer(UserCreateSerializer):
     """Сериализатор для новых пользователей."""
@@ -55,3 +55,5 @@ class UserSerializer(UserSerializer):
         if user.is_anonymous:
             return False
         return Follow.objects.filter(user=user, author=obj).exists()
+
+class UserSerializer(UserSerializer):
