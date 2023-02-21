@@ -26,5 +26,5 @@ def create_users_api(admin_client):
 def auth_client(user):
     refresh = RefreshToken.for_user(user)
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
+    client.credentials(HTTP_AUTHORIZATION=f'Token {refresh.access_token}')
     return client

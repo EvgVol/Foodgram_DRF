@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.db import models, F, Q
+from django.db import models
 
-from .validators import validate_username, username_me
+from .validators import validate_username
 
 
 class User(AbstractUser):
@@ -18,22 +18,22 @@ class User(AbstractUser):
         (MODERATOR, 'Модератор'),
     )
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = (
         'username',
         'first_name',
-        'last_name', 
+        'last_name',
     )
 
     username = models.CharField(
         'Уникальный юзернейм',
-        validators=(validate_username, username_me),
+        validators=(validate_username,),
         max_length=settings.LENG_DATA_USER,
         unique=True,
         blank=False,
         null=False,
         help_text=f'Набор символов не более {settings.LENG_DATA_USER}.'
-                  'Только буквы, цифры и @/./+/-/_',
+                   'Только буквы, цифры и @/./+/-/_',
         error_messages={
             'unique': "Пользователь с таким именем уже существует!",
         },
@@ -121,7 +121,7 @@ class Follow(models.Model):
                 name='unique_follow'
             ),
             models.CheckConstraint(
-                check=~Q(author=F('user')),
+                check=~models.Q(author=models.F('user')),
                 name='no_self_follow'
             )
         ]
