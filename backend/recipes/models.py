@@ -149,7 +149,7 @@ class Recipe(models.Model):
         return self.name
 
 
-class RecipeIngredient(models.Model):
+class IngredientInRecipe(models.Model):
     """Количество ингредиентов в рецепте.
     Модель связывает Recipe и Ingredient с указанием количества ингредиентов.
     """
@@ -185,7 +185,7 @@ class RecipeIngredient(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['ingredient', 'recipe'],
-                name='unique ingredients recipe'
+                name='unique_ingredients_recipe'
             )
         ]
 
