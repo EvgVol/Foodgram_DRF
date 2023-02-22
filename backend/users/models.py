@@ -51,7 +51,7 @@ class User(AbstractUser):
         max_length=settings.LENG_DATA_USER,
         blank=False,
         null=False,
-        help_text=f'Набор символов не более {settings.LENG_DATA_USER}.'
+        help_text=settings.LIMITED_NUMBER_OF_CHARACTERS
     )
 
     email = models.EmailField(
@@ -60,7 +60,7 @@ class User(AbstractUser):
         unique=True,
         blank=False,
         null=False,
-        help_text=f'Набор символов не более {settings.LENG_DATA_USER}.'
+        help_text=settings.LIMITED_NUMBER_OF_CHARACTERS
     )
 
     role = models.CharField(

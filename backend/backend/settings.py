@@ -13,7 +13,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'api',
     'users',
+    'recipes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,19 +139,22 @@ EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 DEFAULT_FROM_EMAIL = 'admin@foodgram.cook'
 
+# Далее вынесены постоянные которые нужны для работы проекта
+# ----------------------------------------------------------------------------
 # Constant values
 LENG_DATA_USER = 150 #Постоянная длины данных пользователя (Имя, Фамилия, Ник)
 LENG_EMAIL = 254 #Постоянная длины email пользователя
-LENG_MAX = 200 #Поятонная длины рецепта
+LENG_MAX = 200 #Постоянная длины рецепта
 LENG_COLOR = 7 #Постоянная длины цвета
 INGREDIENT_MIN_AMOUNT = 1 #Минимальное значение ингредиента
 COOKING_TIME_MIN_VALUE = 1 #Минимальное значение время приготовления
-
+# ----------------------------------------------------------------------------
 #Regular expressions
 USERNAME_REGEX = r'[\w\.@+-]+'
 COLOR_REGEX = r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
-
+# ----------------------------------------------------------------------------
 # Notifications
+LIMITED_NUMBER_OF_CHARACTERS = f'Набор символов не более {LENG_DATA_USER}.'
 NOT_ALLOWED_ME = ('Нельзя создать пользователя с '
                   'именем: << {username} >> - это имя запрещено!')
 NOT_ALLOWED_CHAR_MSG = ('{chars} недопустимые символы '
@@ -161,7 +166,14 @@ COOKING_TIME_MIN_ERROR = (
 INGREDIENT_MIN_AMOUNT_ERROR = (
     'Количество ингредиентов не может быть меньше {min_value}!'
 )
-SLUG_NOTIFICATION = ("Укажите адрес для страницы тэга. "
-                     "Используйте только латиницу, цифры, дефисы "
-                     "и знаки подчёркивания")
+SLUG_NOTIFICATION = ('Укажите адрес для страницы тэга. '
+                     'Используйте только латиницу, цифры, дефисы '
+                     'и знаки подчёркивания')
+INGREDIENT_DUBLICATE_ERROR = 'Ингредиенты не могут повторяться!'
+TAG_ERROR = 'Рецепт не может быть без тегов!'
+TAG_UNIQUE_ERROR = 'Теги должны быть уникальными!'
+RECIPE_IN_FAVORITE = 'Вы уже добавили рецепт в избранное.'
+ALREADY_BUY = 'Вы уже добавили рецепт в список покупок.'
+
+# ----------------------------------------------------------------------------
 
