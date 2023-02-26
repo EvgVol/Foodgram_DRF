@@ -13,9 +13,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'api',
-    'users',
-    'recipes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,6 +24,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'api',
+    'users',
+    'recipes',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +131,13 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 6,
 }
 
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'users.serializers.UserRegistrationSerializer',
+        'user': 'users.serializers.UsersSerializer',
+        'current_user': 'users.serializers.UsersSerializer',
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -146,14 +154,22 @@ LENG_DATA_USER = 150 #Постоянная длины данных пользо�
 LENG_EMAIL = 254 #Постоянная длины email пользователя
 LENG_MAX = 200 #Постоянная длины рецепта
 LENG_COLOR = 7 #Постоянная длины цвета
+RECIPES_LIMIT = 3
 INGREDIENT_MIN_AMOUNT = 1 #Минимальное значение ингредиента
 COOKING_TIME_MIN_VALUE = 1 #Минимальное значение время приготовления
+SIZE_FRONT = 16
+FONT_NAME = 'Times-Roman'
+ENCODING = 'UTF-8'
+
 # ----------------------------------------------------------------------------
 #Regular expressions
 USERNAME_REGEX = r'[\w\.@+-]+'
 COLOR_REGEX = r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
 # ----------------------------------------------------------------------------
 # Notifications
+ERROR_PASSWORD = 'Не удается войти в систему с предоставленными учетными данными.'
+PASSWORD_CHANGED = 'Пароль успешно изменен.'
+PASSWORD_INCORRECT = 'Проверьте, правильно ли вы указали текущий пароль!'
 LIMITED_NUMBER_OF_CHARACTERS = f'Набор символов не более {LENG_DATA_USER}.'
 NOT_ALLOWED_ME = ('Нельзя создать пользователя с '
                   'именем: << {username} >> - это имя запрещено!')
@@ -174,6 +190,8 @@ TAG_ERROR = 'Рецепт не может быть без тегов!'
 TAG_UNIQUE_ERROR = 'Теги должны быть уникальными!'
 RECIPE_IN_FAVORITE = 'Вы уже добавили рецепт в избранное.'
 ALREADY_BUY = 'Вы уже добавили рецепт в список покупок.'
+WAS_DELETE = 'Рецепт уже удален'
+
 
 # ----------------------------------------------------------------------------
 

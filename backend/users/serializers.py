@@ -1,10 +1,15 @@
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from rest_framework import serializers, validators
+from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
+from django.conf import settings
+from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
+import django.contrib.auth.password_validation as validators
 
 from .models import User, Follow
 from .validators import validate_username
 from recipes.models import Recipe
-from api.serializers import ShowRecipeAddedSerializer
+
 
 
 class UserRegistrationSerializer(UserCreateSerializer):
@@ -13,14 +18,14 @@ class UserRegistrationSerializer(UserCreateSerializer):
     username = serializers.CharField(
         required=True,
         validators=[
-            validators.UniqueValidator(queryset=User.objects.all()),
+            UniqueValidator(queryset=User.objects.all()),
             validate_username
         ]
     )
 
     email = serializers.EmailField(
         required=True,
-        validators=[validators.UniqueValidator(queryset=User.objects.all())]
+        validators=[UniqueValidator(queryset=User.objects.all())]
     )
 
     class Meta:
@@ -35,18 +40,20 @@ class UserRegistrationSerializer(UserCreateSerializer):
             'last_name': {'required': True},
         }
 
+    def validate_new_password(self, new_password):
+        validators.validate_password(new_password)
+        return new_password
+
 
 class UsersSerializer(UserSerializer):
     """Сериализатор для всех пользователей."""
 
-    is_subscribed = serializers.SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username','password',
+        fields = ('id', 'email', 'username',
                   'first_name', 'last_name', 'is_subscribed',)
-        extra_kwargs = {'password': {'write_only': True}}
-        read_only_fields = 'is_subscribed',
 
     def get_is_subscribed(self, obj):
         """Проверка подписки пользователей."""
@@ -54,6 +61,35 @@ class UsersSerializer(UserSerializer):
         if user.is_anonymous:
             return False
         return Follow.objects.filter(user=user, author=obj).exists()
+
+
+class UserPasswordSerializer(serializers.Serializer):
+    new_password = serializers.CharField(
+        label='Новый пароль')
+    current_password = serializers.CharField(
+        label='Текущий пароль')
+
+    def validate_current_password(self, current_password):
+        user = self.context['request'].user
+        if not authenticate(
+                username=user.email,
+                password=current_password):
+            raise serializers.ValidationError(
+                settings.ERROR_PASSWORD, code='authorization')
+        return current_password
+
+    def validate_new_password(self, new_password):
+        validators.validate_password(new_password)
+        return new_password
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        password = make_password(
+            validated_data.get('new_password'))
+        user.password = password
+        user.save()
+        return validated_data
+
 
 class FollowSerializer(serializers.ModelSerializer):
     """Сериализатор вывода авторов на которых подписан текущий пользователь."""
@@ -80,13 +116,15 @@ class FollowSerializer(serializers.ModelSerializer):
         ).exists()
 
     def get_recipes(self, obj):
+        from api.serializers import ShowRecipeAddedSerializer
         request = self.context.get('request')
-        limit = request.GET.get('recipes_limit')
-        queryset = Recipe.objects.filter(author=obj.author)
-        if limit:
-            queryset = queryset[:int(limit)]
-        return ShowRecipeAddedSerializer(queryset, many=True).data
+        recipes = Recipe.objects.filter(
+            author=obj.author)[:settings.RECIPES_LIMIT]
+        return ShowRecipeAddedSerializer(
+            recipes,
+            many=True,
+            context={'request': request}
+        ).data
 
     def get_recipes_count(self, obj):
-        """ Показывает общее количество рецептов у каждого автора."""
         return Recipe.objects.filter(author=obj.author).count()
