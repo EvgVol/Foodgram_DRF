@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.core import validators
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.utils.html import mark_safe
+
+from colorfield.fields import ColorField
 
 from users.models import User
 
@@ -44,11 +45,10 @@ class Tag(models.Model):
         max_length=settings.LENG_MAX,
         help_text=f'Набор символов не более {settings.LENG_MAX}.'
     )
-
-    color = models.CharField(
+    color = ColorField(
         'Цветовой HEX-код',
         unique=True,
-        default='#ffffff',
+        default='#FF0000',
         max_length=settings.LENG_COLOR,
         validators=[
             validators.RegexValidator(
@@ -59,7 +59,7 @@ class Tag(models.Model):
         error_messages={
             'unique': "Такой цвет уже существует!",
         },
-        help_text=f'Набор символов не более {settings.LENG_COLOR}.'
+        help_text=f'Для выбора цвета воспользуйтесь цветовой панелью.'
     )
 
     slug =  models.SlugField(
@@ -117,8 +117,7 @@ class Recipe(models.Model):
 
     ingredients = models.ManyToManyField(
         Ingredient,
-        through='RecipeIngredient',
-        related_name='recipes',
+        through='IngredientInRecipe',
         verbose_name='Ингредиенты'
     )
 
@@ -158,13 +157,14 @@ class IngredientInRecipe(models.Model):
         Recipe,
         verbose_name='Рецепт',
         on_delete=models.CASCADE,
+        related_name='recipe'
     )
 
-    ingredients = models.ForeignKey(
+    ingredient = models.ForeignKey(
         Ingredient,
-        verbose_name='Ингредиенты',
+        verbose_name='Ингредиент',
         on_delete=models.CASCADE,
-        related_name='recipe',
+        related_name='ingredient'
     )
 
     amount = models.PositiveSmallIntegerField(
@@ -180,12 +180,12 @@ class IngredientInRecipe(models.Model):
 
     class Meta:
         ordering = ('-id',)
-        verbose_name = 'Количество ингридиента'
-        verbose_name_plural = 'Количество ингридиентов'
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'Ингредиенты'
         constraints = [
             models.UniqueConstraint(
                 fields=['ingredient', 'recipe'],
-                name='unique_ingredients_recipe'
+                name='unique_ingredient_recipe'
             )
         ]
 
@@ -199,7 +199,7 @@ class IngredientInRecipe(models.Model):
 class Favorite(models.Model):
     """Модель избранного."""
 
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         null=True,
@@ -233,30 +233,27 @@ class ShoppingCart(models.Model):
     Модель связывает Recipe и  User.
     """
 
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         User,
-        verbose_name='Пользователь',
         on_delete=models.CASCADE,
-        related_name='shopping_cart',
-        null=True,
-    ),
-
-    recipe = models.ManyToManyField(
+        related_name='user_shopping_lists',
+        verbose_name='Пользователь',)
+    recipe = models.ForeignKey(
         Recipe,
-        verbose_name='Рецепт',
-        related_name='shopping_cart',
-    )
+        on_delete=models.CASCADE,
+        related_name='purchases',
+        verbose_name='Покупка',)
+    when_added = models.DateTimeField(
+        'Дата добавления',
+        auto_now_add=True,)
 
     class Meta:
-        ordering = ('-id',)
-        verbose_name = 'Покупка'
-        verbose_name_plural = 'Покупки'
-        constraints = (
-            models.UniqueConstraint(
-                fields=('recipe', 'user', ),
-                name='unique_cart_user',
-            ),
-        )
+        verbose_name = 'покупка'
+        verbose_name_plural = 'покупки'
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'recipe'],
+                                    name='unique_shopping')
+        ]
 
     def __str__(self):
-        return f'{self.user} добавил "{self.recipe}" в Корзину покупок'
+        return f'пользователь {self.user} покупает {self.purchase}'
