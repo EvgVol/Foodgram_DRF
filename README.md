@@ -1,5 +1,5 @@
 # API для проекта YaMDB в контейнере Docker
-<!-- [![API for YaMDB project workflow](https://github.com/evgvol/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)](https://github.com/evgvol/yamdb_final/actions/workflows/yamdb_workflow.yml) -->
+<!-- [![API for YaMDB project workflow](https://github.com/evgvol/< название-проекта >/actions/workflows/< название-файла >.yml/badge.svg)](https://github.com/evgvol/< название-проекта >/actions/workflows/< название-файла >.yml) -->
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Nginx](https://img.shields.io/badge/-NGINX-464646?style=flat-square&logo=NGINX)](https://nginx.org/ru/)
@@ -16,11 +16,36 @@ Cервис для публикаций и обмена рецептами.
 Авторизованные пользователи могут подписываться на понравившихся авторов, добавлять рецепты в избранное, в покупки, скачивать список покупок. Неавторизованным пользователям доступна регистрация, авторизация, просмотр рецептов других пользователей.
 
 ## Как запустить
-### Склонировать репозиторий на локальную машину:
-
-## Проверка работоспособности
-
-## Проект в интернете
+Из корневой папки выполните:
+```
+docker-compose up --build
+```
+Узнайте id существующих контейнеров
+```
+docker container ls
+```
+Скопируйте id web-контейнера и войдите в него
+```
+docker exec -it <CONTAINER ID> sh
+```
+Сделайте миграцию БД и сбор статики
+```
+python manage.py migrate
+python manage.py collectstatic
+```
+## Окружение
+Для хранения важных данных использован .env файл. Файл добавлен в .gitignore, чтобы исключить попадание в Git.
+Для запуска сайта необходимо в папке backend создать .env файл со следующими переменными:
+DEBUG
+SECRET_KEY
+ALLOWED_HOSTS
+DB_ENGINE
+DB_NAME
+DB_USER
+DB_PASSWORD
+DB_HOST
+DB_PORT
+MODE=dev
 
 ## Документация к API
 Чтобы открыть документацию локально, запустите сервер и перейдите по ссылке:
