@@ -1,5 +1,5 @@
-# API для проекта YaMDB в контейнере Docker
-<!-- [![API for YaMDB project workflow](https://github.com/evgvol/< название-проекта >/actions/workflows/< название-файла >.yml/badge.svg)](https://github.com/evgvol/< название-проекта >/actions/workflows/< название-файла >.yml) -->
+# Foodgram
+<!-- [![Foodgram](https://github.com/evgvol/< название-проекта >/actions/workflows/< название-файла >.yml/badge.svg)](https://github.com/evgvol/< название-проекта >/actions/workflows/< название-файла >.yml) -->
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Nginx](https://img.shields.io/badge/-NGINX-464646?style=flat-square&logo=NGINX)](https://nginx.org/ru/)
