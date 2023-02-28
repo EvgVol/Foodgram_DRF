@@ -32,8 +32,8 @@ class AuthorStaffOrReadOnly(BanPermission):
 
 class IsAdminOrReadOnly(BanPermission):
     """Разрешение на создание и изменение только для админов.
-    Остальным только чтение объекта."""
-
+    Остальным только чтение объекта.
+    """
     def has_object_permission(self, request, view):
         return (
             request.method in permissions.SAFE_METHODS

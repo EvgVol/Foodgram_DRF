@@ -1,16 +1,19 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from decouple import Csv, config
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = {'SECRET_KEY': os.getenv('SECRET_KEY'), }
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
+MODE=config('MODE')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -43,11 +46,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backend.urls'
 
-TEMPLATES_DIR = BASE_DIR / 'templates'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,23 +64,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if config('MODE') == "dev":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': os.getenv('DB_ENGINE', default="django.db.backends.postgresql"),
-#         'NAME': os.getenv('DB_NAME', default="postgres"),
-#         'USER': os.getenv('POSTGRES_USER', default="postgres"),
-#         'PASSWORD': os.getenv('POSTGRES_PASSWORD', default="postgres"),
-#         'HOST': os.getenv('DB_HOST', default="db"),
-#         'PORT': os.getenv('DB_PORT', default="5432")
-#     }
-# }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DB_ENGINE'),
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT')
+        }
+    }
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -132,6 +135,14 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'HIDE_USERS': False,
+    'PERMISSIONS': {
+        'resipe': ('users.permissions.AuthorStaffOrReadOnly,',),
+        'recipe_list': ('users.permissions.AuthorStaffOrReadOnly',),
+        'user': ('users.permissions.OwnerUserOrReadOnly',),
+        'user_list': ('users.permissions.OwnerUserOrReadOnly',),
+    },
     'SERIALIZERS': {
         'user_create': 'users.serializers.UserRegistrationSerializer',
         'user': 'users.serializers.UsersSerializer',
@@ -157,10 +168,6 @@ LENG_COLOR = 7 #Постоянная длины цвета
 RECIPES_LIMIT = 3
 INGREDIENT_MIN_AMOUNT = 1 #Минимальное значение ингредиента
 COOKING_TIME_MIN_VALUE = 1 #Минимальное значение время приготовления
-SIZE_FRONT = 16
-FONT_NAME = 'Times-Roman'
-ENCODING = 'UTF-8'
-
 # ----------------------------------------------------------------------------
 #Regular expressions
 USERNAME_REGEX = r'[\w\.@+-]+'
@@ -191,7 +198,4 @@ TAG_UNIQUE_ERROR = 'Теги должны быть уникальными!'
 RECIPE_IN_FAVORITE = 'Вы уже добавили рецепт в избранное.'
 ALREADY_BUY = 'Вы уже добавили рецепт в список покупок.'
 WAS_DELETE = 'Рецепт уже удален'
-
-
 # ----------------------------------------------------------------------------
-

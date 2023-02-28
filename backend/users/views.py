@@ -24,6 +24,9 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=[IsAuthenticated]
     )
     def subscribe(self, request, **kwargs):
+        """Подписываем / отписываемся на пользователя.
+        Доступно только авторизованным пользователям.
+        """
         user = request.user
         author_id = self.kwargs.get('id')
         author = get_object_or_404(User, id=author_id)
@@ -58,7 +61,9 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=(IsAuthenticated,)
     )
     def subscriptions(self, request):
-        """Получить на кого пользователь подписан."""
+        """Возвращает пользователей, на которых подписан текущий пользователь.
+        В выдачу добавляются рецепты.
+        """
         user = request.user
         queryset = Follow.objects.filter(user=user)
         pages = self.paginate_queryset(queryset)

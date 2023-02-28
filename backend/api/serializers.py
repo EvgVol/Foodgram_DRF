@@ -72,7 +72,12 @@ class RecipeReadSerializer(serializers.ModelSerializer):
 
     def get_ingredients(self, recipe):
         """Получает список ингредиентов для рецепта."""
-        return IngredientInRecipeSerializer(recipe.recipe.all(), many=True).data
+        return recipe.ingredients.values(
+            'id',
+            'name',
+            'measurement_unit',
+            amount=models.F('recipes__ingredient_list')
+        )
 
     def get_is_favorited(self, recipe):
         """Проверка - находится ли рецепт в избранном."""
@@ -212,52 +217,3 @@ class ShowRecipeAddedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
-
-    # def get_image(self, obj):
-    #     """Получаем изображение рецепта."""
-    #     request = self.context.get('request')
-    #     photo_url = obj.image.url
-    #     return request.build_absolute_uri(photo_url)
-
-
-class AddFavouriteRecipeSerializer(serializers.ModelSerializer):
-    """Сериализатор добавления рецепта в избранное."""
-
-    class Meta:
-        model = Favorite
-        fields = ('user', 'recipe')
-        validators = [
-            validators.UniqueTogetherValidator(
-                queryset=Favorite.objects.all(),
-                fields=['user', 'recipe'],
-                message=settings.RECIPE_IN_FAVORITE
-            )
-        ]
-
-    def to_representation(self, instance):
-        request = self.context.get('request')
-        return ShowRecipeAddedSerializer(
-            instance.recipe,
-            context={'request': request}
-        ).data
-
-
-# class ShoppingCartSerializer(AddFavouriteRecipeSerializer):
-#     """Сериализатор совершения покупок"""
-
-#     class Meta(AddFavouriteRecipeSerializer.Meta):
-#         model = ShoppingCart
-#         validators = [
-#             validators.UniqueTogetherValidator(
-#                 queryset=ShoppingCart.objects.all(),
-#                 fields=['user', 'recipe'],
-#                 message=settings.ALREADY_BUY
-#             )
-#         ]
-
-#     def to_representation(self, instance):
-#         request = self.context.get('request')
-#         return ShowRecipeAddedSerializer(
-#             instance.recipe,
-#             context={'request': request}
-#         ).data
