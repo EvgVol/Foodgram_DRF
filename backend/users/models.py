@@ -10,12 +10,10 @@ class User(AbstractUser):
 
     USER = 'user'
     ADMIN = 'admin'
-    MODERATOR = 'moderator'
 
     ROLE_CHOICES = (
         (USER, 'Пользователь'),
         (ADMIN, 'Администратор'),
-        (MODERATOR, 'Модератор'),
     )
 
     USERNAME_FIELD = 'email'
@@ -63,6 +61,14 @@ class User(AbstractUser):
         help_text=settings.LIMITED_NUMBER_OF_CHARACTERS
     )
 
+    password = models.CharField(
+        'Пароль',
+        max_length=settings.LENG_DATA_USER,
+        help_text=settings.LIMITED_NUMBER_OF_CHARACTERS,
+        blank=False,
+        null=False
+    )
+
     role = models.CharField(
         'Роль пользователя',
         max_length=max(len(role) for role, _ in ROLE_CHOICES),
@@ -70,10 +76,6 @@ class User(AbstractUser):
         default=USER,
         blank=True
     )
-
-    @property
-    def is_moderator(self):
-        return self.role == self.MODERATOR
 
     @property
     def is_admin(self):
