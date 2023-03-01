@@ -107,7 +107,6 @@ class Recipe(IngredientTagRecipe):
     author = models.ForeignKey(
         User,
         verbose_name='Автор рецепта',
-        related_name='recipes',
         on_delete=models.SET_NULL,
         null=True,
     )
@@ -140,7 +139,6 @@ class Recipe(IngredientTagRecipe):
 
     tags = models.ManyToManyField(
         Tag,
-        related_name='recipes',
         verbose_name='Теги'
     )
 
