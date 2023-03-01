@@ -11,7 +11,6 @@ from .validators import validate_username
 from recipes.models import Recipe
 
 
-
 class UserRegistrationSerializer(UserCreateSerializer):
     """Сериализатор для новых пользователей."""
 
