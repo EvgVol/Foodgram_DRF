@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import Follow, User
+from recipes.models import Recipe
 
 
 @admin.register(User)
@@ -13,11 +14,22 @@ class UserAdmin(admin.ModelAdmin):
         'email',
         'first_name',
         'last_name',
-        'role'
+        'count_followers',
+        'count_recipes',
     )
-    list_editable = ('role',)
+    readonly_fields = ('count_followers', 'count_recipes')
     list_filter = ('username', 'email',)
     search_fields = ('username', 'email')
+
+    @admin.display(description='Количество подписчиков')
+    def count_followers(self, obj):
+        """Получаем количество подписчиков."""
+        return obj.follower.count()
+
+    @admin.display(description='Количество рецептов')
+    def count_recipes(self, obj):
+        """Получаем количество подписчиков."""
+        return obj.recipes.count()
 
 
 @admin.register(Follow)
@@ -27,4 +39,3 @@ class FollowAdmin(admin.ModelAdmin):
     list_display = ('user', 'author')
     list_filter = ('user', 'author')
     search_fields = ('user', 'author')
-    empty_value_display = "-пусто-"

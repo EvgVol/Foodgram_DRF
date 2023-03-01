@@ -8,14 +8,6 @@ from .validators import validate_username
 class User(AbstractUser):
     """Модель пользователя."""
 
-    USER = 'user'
-    ADMIN = 'admin'
-
-    ROLE_CHOICES = (
-        (USER, 'Пользователь'),
-        (ADMIN, 'Администратор'),
-    )
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = (
         'username',
@@ -69,20 +61,8 @@ class User(AbstractUser):
         null=False
     )
 
-    role = models.CharField(
-        'Роль пользователя',
-        max_length=max(len(role) for role, _ in ROLE_CHOICES),
-        choices=ROLE_CHOICES,
-        default=USER,
-        blank=True
-    )
-
-    @property
-    def is_admin(self):
-        return self.role == self.ADMIN or self.is_superuser or self.is_staff
-
     class Meta:
-        ordering = ('id',)
+        ordering = ('username',)
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
         constraints = [
@@ -116,7 +96,7 @@ class Follow(models.Model):
     class Meta:
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
-        ordering = ('-id',)
+        ordering = ('user',)
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'author'],
