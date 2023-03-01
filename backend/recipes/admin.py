@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.forms import CheckboxSelectMultiple
 
 from .models import (Favorite, Ingredient, Recipe,
                      IngredientInRecipe, ShoppingCart, Tag,)
@@ -21,9 +20,9 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ('color',)
 
 
-class IngredientInRecipeAdmin(admin.StackedInline):
+class IngredientInRecipeAdmin(admin.TabularInline):
     model = IngredientInRecipe
-    autocomplete_fields = ('ingredient',)
+    extra = 2
 
 
 @admin.register(Recipe)

@@ -12,9 +12,9 @@ from .serializers import (TagSerializer,
                           RecipeWriteSerializer)
 from .filters import IngredientFilter, RecipeFilter
 from .pagination import LimitPageNumberPagination
+from .permissions import AdminOrAuthorOrReadOnly
 from recipes.models import (Ingredient, Tag, Recipe, Favorite,
                             ShoppingCart, IngredientInRecipe)
-from users.permissions import IsAdminOrReadOnly, AuthorStaffOrReadOnly
 from core.option import add_and_del
 
 
@@ -23,7 +23,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-    permission_classes = (IsAdminOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)
     pagination_class = None
 
 
@@ -32,7 +32,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
-    permission_classes = (IsAdminOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)
     pagination_class = None
     filter_class = IngredientFilter
 
@@ -43,7 +43,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     Для запросов на изменение используется RecipeWriteSerializer"""
 
     queryset = Recipe.objects.all()
-    permission_classes = (AuthorStaffOrReadOnly,)
+    permission_classes = (AdminOrAuthorOrReadOnly,)
     serializer_class = RecipeReadSerializer
     filter_class = RecipeFilter
     pagination_class = LimitPageNumberPagination

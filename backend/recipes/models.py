@@ -59,7 +59,6 @@ class Ingredient(IngredientTagRecipe):
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
         ordering = ('name',)
-        # default_related_name = 'ingredients'
         constraints = [
             models.UniqueConstraint(fields=['name', 'measurement_unit'],
                                     name='unique_ingredient')

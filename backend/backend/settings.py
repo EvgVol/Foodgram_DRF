@@ -137,12 +137,12 @@ REST_FRAMEWORK = {
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'HIDE_USERS': False,
-    'PERMISSIONS': {
-        'resipe': ('users.permissions.AuthorStaffOrReadOnly,',),
-        'recipe_list': ('users.permissions.AuthorStaffOrReadOnly',),
-        'user': ('users.permissions.OwnerUserOrReadOnly',),
-        'user_list': ('users.permissions.OwnerUserOrReadOnly',),
-    },
+    # 'PERMISSIONS': {
+    #     'resipe': ('users.permissions.AuthorStaffOrReadOnly,',),
+    #     'recipe_list': ('users.permissions.AuthorStaffOrReadOnly',),
+    #     'user': ('users.permissions.OwnerUserOrReadOnly',),
+    #     'user_list': ('users.permissions.OwnerUserOrReadOnly',),
+    # },
     'SERIALIZERS': {
         'user_create': 'users.serializers.UserRegistrationSerializer',
         'user': 'users.serializers.UsersSerializer',
