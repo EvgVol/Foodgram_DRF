@@ -1,7 +1,7 @@
+from colorfield.fields import ColorField
 from django.conf import settings
 from django.core import validators
 from django.db import models
-from colorfield.fields import ColorField
 
 from users.models import User
 
@@ -59,7 +59,6 @@ class Ingredient(IngredientTagRecipe):
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
         ordering = ('name',)
-        # default_related_name = 'ingredients'
         constraints = [
             models.UniqueConstraint(fields=['name', 'measurement_unit'],
                                     name='unique_ingredient')
@@ -107,7 +106,6 @@ class Recipe(IngredientTagRecipe):
     author = models.ForeignKey(
         User,
         verbose_name='Автор рецепта',
-        related_name='recipes',
         on_delete=models.SET_NULL,
         null=True,
     )
@@ -135,12 +133,11 @@ class Recipe(IngredientTagRecipe):
     ingredients = models.ManyToManyField(
         Ingredient,
         through='IngredientInRecipe',
-        verbose_name='Ингредиенты'
+        verbose_name='Ингредиенты',
     )
 
     tags = models.ManyToManyField(
         Tag,
-        related_name='recipes',
         verbose_name='Теги'
     )
 
@@ -179,7 +176,7 @@ class IngredientInRecipe(models.Model):
         Ingredient,
         verbose_name='Ингредиент',
         on_delete=models.CASCADE,
-        related_name='ingredient_list'
+        related_name='ingredient_list',
     )
 
     amount = models.PositiveSmallIntegerField(
@@ -195,8 +192,8 @@ class IngredientInRecipe(models.Model):
 
     class Meta:
         ordering = ('-id',)
-        verbose_name = 'Ингредиент'
-        verbose_name_plural = 'Ингредиенты'
+        verbose_name = 'Количество ингредиента'
+        verbose_name_plural = 'Количество ингредиентов'
         constraints = [
             models.UniqueConstraint(
                 fields=['ingredient', 'recipe'],

@@ -1,18 +1,14 @@
 from django_filters.rest_framework import FilterSet, filters
+from rest_framework.filters import SearchFilter
 
 from recipes.models import Recipe, Ingredient
 from users.models import User
 
 
-class IngredientFilter(FilterSet):
+class IngredientFilter(SearchFilter):
     """Фильтр для ингредиентов."""
 
-    name = filters.CharFilter(lookup_expr='istartswith')
-
-    class Meta:
-        model = Ingredient
-        fields = ('name',)
-
+    search_param = 'name'
 
 class RecipeFilter(FilterSet):
     """Фильтр для рецептов."""
@@ -30,9 +26,9 @@ class RecipeFilter(FilterSet):
 
     def filter_is_in_shopping_cart(self, queryset, name, value):
         if value and not self.request.user.is_anonymous:
-            return queryset.filter(cart__user=self.request.user)
+            return queryset.filter(shopping_list__user=self.request.user)
         return queryset
 
     class Meta:
         model = Recipe
-        fields = ('tags', 'author')
+        fields = ('tags', 'author', 'is_favorited', 'is_in_shopping_cart')
