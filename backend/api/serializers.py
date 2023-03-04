@@ -1,8 +1,8 @@
 from drf_extra_fields.fields import Base64ImageField
 from django.db import models, transaction
 from django.conf import settings
-from rest_framework import (exceptions, fields, relations, response,
-                           serializers, status, validators)
+from rest_framework import (exceptions, fields, relations,
+                            serializers, status, validators)
 
 from recipes.models import (Favorite, Tag, Ingredient, Recipe,
                             IngredientInRecipe, ShoppingCart)
@@ -61,12 +61,12 @@ class FollowSerializer(UsersSerializer):
         user = self.context.get('request').user
         if Follow.objects.filter(user=user, author=author).exists():
             raise exceptions.ValidationError(
-                detail='Вы уже подписаны на этого пользователя!',
+                detail=settings.DUBLICAT_USER,
                 code=status.HTTP_400_BAD_REQUEST
             )
         if user == author:
             raise exceptions.ValidationError(
-                detail='Вы не можете подписаться на самого себя!',
+                detail=settings.SELF_FOLLOW,
                 code=status.HTTP_400_BAD_REQUEST
             )
         return data
@@ -290,7 +290,7 @@ class AddFavoriteRecipeSerializer(serializers.ModelSerializer):
             validators.UniqueTogetherValidator(
                 queryset=Favorite.objects.all(),
                 fields=['user', 'recipe'],
-                message=('Вы уже добавили рецепт в избранное.')
+                message=settings.RECIPE_IN_FAVORITE
             )
         ]
 
@@ -311,7 +311,7 @@ class AddShoppingListRecipeSerializer(AddFavoriteRecipeSerializer):
             validators.UniqueTogetherValidator(
                 queryset=ShoppingCart.objects.all(),
                 fields=['user', 'recipe'],
-                message=('Вы уже добавили рецепт в список покупок.')
+                message=settings.ALREADY_BUY
             )
         ]
 

@@ -6,10 +6,7 @@ from django.conf import settings
 from recipes.models import Ingredient, Tag
 
 
-FILE_DIR = os.path.join(
-    settings.BASE_DIR,
-    'data'
-)
+FILE_DIR = os.path.join(settings.BASE_DIR, 'data')
 
 def import_csv():
     """Импортер данных из csv."""

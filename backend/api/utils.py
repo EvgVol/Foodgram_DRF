@@ -1,7 +1,6 @@
 from pathlib import Path
 from datetime import datetime as dt
 
-
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.shortcuts import HttpResponse
@@ -15,12 +14,13 @@ def add_and_del(add_serializer, model, request, recipe_id):
     """Опция добавления и удаления рецепта."""
     user = request.user
     data = {'user': user.id,
-            'recipe': recipe_id,}
+            'recipe': recipe_id}
     serializer = add_serializer(data=data, context={'request': request})
     if request.method == 'POST':
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return response.Response(serializer.data, status=status.HTTP_201_CREATED)
+        return response.Response(serializer.data,
+                                 status=status.HTTP_201_CREATED)
     recipe = get_object_or_404(Recipe, id=recipe_id)
     get_object_or_404(model, user=user, recipe=recipe).delete()
     return response.Response(status=status.HTTP_204_NO_CONTENT)
@@ -40,7 +40,6 @@ def out_list_ingredients(self, request, ingredients):
         """
     user = self.request.user
     filename = f'{user.username}_shopping_list.txt'
-
 
     today = dt.today()
     shopping_list = (

@@ -9,11 +9,7 @@ class User(AbstractUser):
     """Модель пользователя."""
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = (
-        'username',
-        'first_name',
-        'last_name',
-    )
+    REQUIRED_FIELDS = ('username', 'first_name', 'last_name',)
 
     username = models.CharField(
         'Уникальный юзернейм',
@@ -22,11 +18,8 @@ class User(AbstractUser):
         unique=True,
         blank=False,
         null=False,
-        help_text=f'Набор символов не более {settings.LENG_DATA_USER}.'
-                   'Только буквы, цифры и @/./+/-/_',
-        error_messages={
-            'unique': "Пользователь с таким именем уже существует!",
-        },
+        help_text=settings.USERNAME_VALUE,
+        error_messages={'unique': settings.UNIQUE_USERNAME},
     )
 
     first_name = models.CharField(

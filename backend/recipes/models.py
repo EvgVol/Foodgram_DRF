@@ -35,7 +35,7 @@ class IngredientTagRecipe(models.Model):
         'Название',
         unique=True,
         max_length=settings.LENG_MAX,
-        help_text=f'Набор символов не более {settings.LENG_MAX}.'
+        help_text=settings.MAX_NUMBER_OF_CHARACTERS
     )
 
     class Meta:
@@ -52,7 +52,7 @@ class Ingredient(IngredientTagRecipe):
     measurement_unit = models.CharField(
         'Единица измерения',
         max_length=settings.LENG_MAX,
-        help_text=f'Набор символов не более {settings.LENG_MAX}.'
+        help_text=settings.MAX_NUMBER_OF_CHARACTERS
     )
 
     class Meta(IngredientTagRecipe.Meta):
@@ -79,10 +79,8 @@ class Tag(IngredientTagRecipe):
                 message=settings.NOT_COLOR_HEX
             ),
         ],
-        error_messages={
-            'unique': "Такой цвет уже существует!",
-        },
-        help_text=f'Для выбора цвета воспользуйтесь цветовой панелью.'
+        error_messages={'unique': settings.COLOR_NO_UNIQUE},
+        help_text=settings.HELP_CHOISE_COLOR
     )
 
     slug =  models.SlugField(
@@ -103,21 +101,12 @@ class Tag(IngredientTagRecipe):
 class Recipe(IngredientTagRecipe):
     """Модель рецептов."""
 
-    author = models.ForeignKey(
-        User,
-        verbose_name='Автор рецепта',
-        on_delete=models.SET_NULL,
-        null=True,
-    )
+    author = models.ForeignKey(User, verbose_name='Автор рецепта',
+                               on_delete=models.SET_NULL, null=True,)
 
-    text = models.TextField(
-        'Описание рецепта'
-    )
+    text = models.TextField('Описание рецепта')
 
-    image = models.ImageField(
-        'Изображение блюда',
-        upload_to='recipes/'
-    )
+    image = models.ImageField('Изображение блюда', upload_to='recipes/')
 
     cooking_time = models.PositiveSmallIntegerField(
         'Время приготовления в минутах',
@@ -136,10 +125,7 @@ class Recipe(IngredientTagRecipe):
         verbose_name='Ингредиенты',
     )
 
-    tags = models.ManyToManyField(
-        Tag,
-        verbose_name='Теги'
-    )
+    tags = models.ManyToManyField(Tag, verbose_name='Теги')
 
     pub_date = models.DateTimeField(
         verbose_name='Дата публикации',

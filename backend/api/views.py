@@ -1,20 +1,20 @@
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
-from djoser.views import UserViewSet
-from rest_framework import permissions, viewsets, decorators, response, status
 from django_filters.rest_framework import DjangoFilterBackend
+from djoser.views import UserViewSet
+from rest_framework import decorators, permissions, response, status, viewsets
 
 from .filters import IngredientFilter, RecipeFilter
 from .pagination import LimitPageNumberPagination
 from .permissions import AuthorOrReadOnly
-from .serializers import (FollowSerializer, UsersSerializer,
+from .serializers import (AddFavoriteRecipeSerializer,
+                          AddShoppingListRecipeSerializer, FollowSerializer,
                           IngredientSerializer, RecipeReadSerializer,
                           RecipeWriteSerializer, TagSerializer,
-                          AddFavoriteRecipeSerializer,
-                          AddShoppingListRecipeSerializer,)
+                          UsersSerializer)
 from .utils import add_and_del, out_list_ingredients
-from recipes.models import (Favorite, Ingredient, IngredientInRecipe,
-                            Recipe, ShoppingCart, Tag)
+from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
+                            ShoppingCart, Tag)
 from users.models import Follow, User
 
 
