@@ -1,17 +1,19 @@
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import permissions, viewsets, decorators, response, status
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .filters import IngredientFilter, RecipeFilter
 from .pagination import LimitPageNumberPagination
-from .permissions import AdminOrAuthorOrReadOnly
+from .permissions import AuthorOrReadOnly
 from .serializers import (FollowSerializer, UsersSerializer,
                           IngredientSerializer, RecipeReadSerializer,
                           RecipeWriteSerializer, TagSerializer,
                           AddFavoriteRecipeSerializer,
                           AddShoppingListRecipeSerializer,)
 from .utils import add_and_del, out_list_ingredients
-from recipes.models import (Favorite, Ingredient,
+from recipes.models import (Favorite, Ingredient, IngredientInRecipe,
                             Recipe, ShoppingCart, Tag)
 from users.models import Follow, User
 
@@ -43,12 +45,8 @@ class CustomUserViewSet(UserViewSet):
             serializer.is_valid(raise_exception=True)
             Follow.objects.create(user=user, author=author)
             return response.Response(status=status.HTTP_201_CREATED)
-        else:
-            subscription = get_object_or_404(Follow,
-                                             user=user,
-                                             author=author)
-            subscription.delete()
-            return response.Response(status=status.HTTP_204_NO_CONTENT)
+        get_object_or_404(Follow, user=user, author=author).delete()
+        return response.Response(status=status.HTTP_204_NO_CONTENT)
 
     @decorators.action(
         detail=False,
@@ -84,7 +82,8 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = IngredientSerializer
     permission_classes = (permissions.AllowAny,)
     pagination_class = None
-    filter_class = IngredientFilter
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = IngredientFilter
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -93,7 +92,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     Для запросов на изменение используется RecipeWriteSerializer"""
 
     queryset = Recipe.objects.all()
-    permission_classes = (AdminOrAuthorOrReadOnly,)
+    permission_classes = (AuthorOrReadOnly,)
     serializer_class = RecipeReadSerializer
     filterset_class = RecipeFilter
     pagination_class = LimitPageNumberPagination
@@ -110,7 +109,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         )
     def favorite(self, request, pk):
         return add_and_del(
-            self, AddFavoriteRecipeSerializer, Favorite, request, pk
+            AddFavoriteRecipeSerializer, Favorite, request, pk
         )
 
     @decorators.action(
@@ -121,7 +120,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def shopping_cart(self, request, pk):
         """Добавляем/удаляем рецепт в 'список покупок'"""
         return add_and_del(
-            self, AddShoppingListRecipeSerializer, ShoppingCart, request, pk
+            AddShoppingListRecipeSerializer, ShoppingCart, request, pk
         )
 
     @decorators.action(
@@ -130,4 +129,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[permissions.IsAuthenticated]
     )
     def download_shopping_cart(self, request):
-        return out_list_ingredients(self, request)
+        ingredients = IngredientInRecipe.objects.filter(
+            recipe__shopping_list__user=self.request.user
+        ).values(
+            'ingredient__name',
+            'ingredient__measurement_unit'
+        ).order_by('ingredient__name').annotate(amount=Sum('amount'))
+        return out_list_ingredients(self, request, ingredients)

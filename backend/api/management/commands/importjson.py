@@ -19,7 +19,7 @@ class Command(BaseCommand):
                 ' воспользуйтесь менеджмент командой flush')
         except FileNotFoundError:
             raise CommandError(
-                'Файлы csv в папке data не найдены')
+                'Файлы json в папке data не найдены')
         except Exception:
             raise CommandError(
                 'Непредвиденная ошибка при выполнении команды importjson,'
