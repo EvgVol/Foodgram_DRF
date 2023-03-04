@@ -136,18 +136,9 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
-    # 'HIDE_USERS': True,
     'PERMISSIONS': {
-#     #     'resipe': ('users.permissions.AuthorStaffOrReadOnly,',),
-#     #     'recipe_list': ('users.permissions.AuthorStaffOrReadOnly',),
-        'user': ('api.permissions.AdminOrAuthorOrReadOnly',),
-#     #     'user_list': ('users.permissions.OwnerUserOrReadOnly',),
+        'user': ('api.permissions.AuthorOrReadOnly',),
     },
-#     'SERIALIZERS': {
-# #         'user_create': 'users.serializers.UserRegistrationSerializer',
-#         # 'user': 'api.serializers.UsersSerializer',
-#         'current_user': 'api.serializers.UsersSerializer',
-#     },
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

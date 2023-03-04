@@ -1,17 +1,17 @@
 from pathlib import Path
 from datetime import datetime as dt
 
-from django.db.models import Sum
+
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.shortcuts import HttpResponse
 from rest_framework import response, status
 from rest_framework.generics import get_object_or_404
 
-from recipes.models import Recipe, IngredientInRecipe
+from recipes.models import Recipe
 
 
-def add_and_del(self, add_serializer, model, request, recipe_id):
+def add_and_del(add_serializer, model, request, recipe_id):
     """Опция добавления и удаления рецепта."""
     user = request.user
     data = {'user': user.id,
@@ -21,13 +21,9 @@ def add_and_del(self, add_serializer, model, request, recipe_id):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return response.Response(serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        recipe = get_object_or_404(Recipe, id=recipe_id)
-        obj = model.objects.filter(user=user, recipe=recipe)
-        if obj.exists():
-            obj.delete()
-            return response.Response(status=status.HTTP_204_NO_CONTENT)
-        return response.Response(status=status.HTTP_400_BAD_REQUEST)
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    get_object_or_404(model, user=user, recipe=recipe).delete()
+    return response.Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @receiver(post_delete, sender=Recipe)
@@ -38,18 +34,13 @@ def delete_image(sender, instance, *a, **kw):
         image.unlink()
 
 
-def out_list_ingredients(self, request):
+def out_list_ingredients(self, request, ingredients):
     """Загружает файл *.txt со списком покупок.
         Доступно только авторизованным пользователям.
         """
     user = self.request.user
     filename = f'{user.username}_shopping_list.txt'
-    ingredients = IngredientInRecipe.objects.filter(
-            recipe__shopping_list__user=user
-        ).values(
-            'ingredient__name',
-            'ingredient__measurement_unit'
-        ).order_by('ingredient__name').annotate(amount=Sum('amount'))
+
 
     today = dt.today()
     shopping_list = (

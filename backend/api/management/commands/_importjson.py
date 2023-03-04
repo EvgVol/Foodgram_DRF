@@ -14,7 +14,7 @@ FILE_DIR = os.path.join(
 def import_json():
     """Импортер данных из json."""
     with open(
-        os.path.join(FILE_DIR, "ingredients.json"), encoding="utf-8"
+        os.path.join(FILE_DIR, 'ingredients.json'), encoding='utf-8'
     ) as data_file_ingredients:
         ingredient_data = json.loads(data_file_ingredients.read())
         for ingredients in ingredient_data:
@@ -22,9 +22,9 @@ def import_json():
         print(f'Файл {data_file_ingredients.name} загружен.')
 
     with open(
-        os.path.join(FILE_DIR, "tags.json"), encoding="utf-8"
+        os.path.join(FILE_DIR, 'tags.json'), encoding='utf-8'
     ) as data_file_tags:
-        ingredient_data = json.loads(data_file_tags.read())
-        for ingredients in ingredient_data:
-            Tag.objects.get_or_create(**ingredients)
+        tag_data = json.loads(data_file_tags.read())
+        for tags in tag_data:
+            Tag.objects.get_or_create(**tags)
         print(f'Файл {data_file_tags.name} загружен.')
