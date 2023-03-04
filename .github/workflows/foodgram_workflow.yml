@@ -48,14 +48,14 @@ jobs:
             password: ${{ secrets.DOCKER_PASSWORD }}
 
         - name: Push backend
-          uses: docker/build-push-action@v2 
+          uses: docker/build-push-action@v2
           with:
             context: backend/
             push: true
             tags: evol93/foodgram_backend:latest
 
         - name: Push frontend
-          uses: docker/build-push-action@v2 
+          uses: docker/build-push-action@v2
           with:
             context: frontend/
             push: true
