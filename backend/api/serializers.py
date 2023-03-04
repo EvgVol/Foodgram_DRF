@@ -33,9 +33,8 @@ class UsersSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, author):
         """Проверка подписки пользователей."""
         request = self.context.get('request')
-        if request.user.is_anonymous or (request.user == author):
-            return response.Response(status=status.HTTP_400_BAD_REQUEST)
-        return request.user.follower.filter(author=author).exists()
+        return (request.user.follower.filter(author=author).exists()
+                and request.user.is_authenticated)
 
 
 class FollowSerializer(UsersSerializer):
@@ -137,7 +136,7 @@ class RecipeReadSerializer(serializers.ModelSerializer):
     author = UsersSerializer(read_only=True)
     ingredients = IngredientInRecipeSerializer(many=True,
                                                required=True,
-                                               source='recipe')
+                                               source='ingredient_list')
     image = Base64ImageField()
     is_favorited = fields.SerializerMethodField(read_only=True)
     is_in_shopping_cart = fields.SerializerMethodField(read_only=True)
@@ -161,18 +160,14 @@ class RecipeReadSerializer(serializers.ModelSerializer):
     def get_is_favorited(self, obj):
         """Проверка - находится ли рецепт в избранном."""
         request = self.context.get('request')
-        if request is None or request.user.is_anonymous:
-            return False
-        user = request.user
-        return Favorite.objects.filter(recipe=obj, user=user).exists()
+        return (request.user.favorites.filter(recipe=obj).exists()
+                and request.user.is_authenticated)
 
     def get_is_in_shopping_cart(self, obj):
         """Проверка - находится ли рецепт в списке покупок."""
         request = self.context.get('request')
-        if request is None or request.user.is_anonymous:
-            return False
-        user = request.user
-        return ShoppingCart.objects.filter(recipe=obj, user=user).exists()
+        return (request.user.shopping_list.filter(recipe=obj).exists()
+                and request.user.is_authenticated)
 
 
 class IngredientInRecipeWriteSerializer(serializers.ModelSerializer):
