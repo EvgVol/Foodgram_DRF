@@ -98,25 +98,25 @@ class RecipeViewSet(viewsets.ModelViewSet):
     pagination_class = LimitPageNumberPagination
 
     def get_serializer_class(self):
-            if self.request.method in ('POST', 'PUT', 'PATCH'):
-                return RecipeWriteSerializer
-            return RecipeReadSerializer
+        if self.request.method in ('POST', 'PUT', 'PATCH'):
+            return RecipeWriteSerializer
+        return RecipeReadSerializer
 
     @decorators.action(
-            detail=True,
-            methods=['POST', 'DELETE'],
-            permission_classes=[permissions.IsAuthenticated]
-        )
+        detail=True,
+        methods=['POST', 'DELETE'],
+        permission_classes=[permissions.IsAuthenticated]
+    )
     def favorite(self, request, pk):
         return add_and_del(
             AddFavoriteRecipeSerializer, Favorite, request, pk
         )
 
     @decorators.action(
-            detail=True,
-            methods=['POST', 'DELETE'],
-            permission_classes=[permissions.IsAuthenticated]
-        )
+        detail=True,
+        methods=['POST', 'DELETE'],
+        permission_classes=[permissions.IsAuthenticated]
+    )
     def shopping_cart(self, request, pk):
         """Добавляем/удаляем рецепт в 'список покупок'"""
         return add_and_del(

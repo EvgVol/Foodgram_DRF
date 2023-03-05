@@ -52,7 +52,7 @@ class FollowSerializer(UsersSerializer):
     class Meta:
         model = Follow
         fields = ('id', 'email', 'username', 'first_name', 'last_name',
-                    'is_subscribed', 'recipes', 'recipes_count')
+                  'is_subscribed', 'recipes', 'recipes_count')
         read_only_fields = '__all__',
 
     def validate(self, data):
@@ -173,8 +173,7 @@ class RecipeReadSerializer(serializers.ModelSerializer):
 class IngredientInRecipeWriteSerializer(serializers.ModelSerializer):
     """ Сериализатор для ингредиента в рецепте."""
 
-    id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all()
-    )
+    id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
 
     class Meta:
         model = IngredientInRecipe
@@ -198,13 +197,13 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create_bulk_ingredients(self, ingredients, recipe):
-            IngredientInRecipe.objects.bulk_create(
-                [IngredientInRecipe(
-                    ingredient=Ingredient.objects.get(id=ingredient['id']),
-                    recipe=recipe,
-                    amount=ingredient['amount']
-                ) for ingredient in ingredients]
-            )
+        IngredientInRecipe.objects.bulk_create(
+            [IngredientInRecipe(
+                ingredient=Ingredient.objects.get(id=ingredient['id']),
+                recipe=recipe,
+                amount=ingredient['amount']
+            ) for ingredient in ingredients]
+        )
 
     @transaction.atomic
     def create(self, validated_data):

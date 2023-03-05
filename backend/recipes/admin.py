@@ -20,7 +20,6 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ('color',)
 
 
-
 class IngredientInRecipeInline(admin.TabularInline):
     model = IngredientInRecipe
     extra = 2

@@ -41,7 +41,6 @@ class IngredientTagRecipe(models.Model):
     class Meta:
         abstract = True
 
-
     def __str__(self):
         return self.name
 
@@ -83,7 +82,7 @@ class Tag(IngredientTagRecipe):
         help_text=settings.HELP_CHOISE_COLOR
     )
 
-    slug =  models.SlugField(
+    slug = models.SlugField(
         'Уникальный слаг',
         unique=True,
         max_length=settings.LENG_MAX,

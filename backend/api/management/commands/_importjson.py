@@ -8,6 +8,7 @@ from recipes.models import Ingredient, Tag
 
 FILE_DIR = os.path.join(settings.BASE_DIR, 'data')
 
+
 def import_json():
     """Импортер данных из json."""
     with open(

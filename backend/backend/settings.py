@@ -12,7 +12,7 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
-MODE=config('MODE')
+MODE = config('MODE')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -151,20 +151,19 @@ DEFAULT_FROM_EMAIL = 'admin@foodgram.cook'
 # Далее вынесены постоянные которые нужны для работы проекта
 # ----------------------------------------------------------------------------
 # Constant values
-LENG_DATA_USER = 150  #Постоянная длины данных пользователя (Имя, Фамилия, Ник)
-LENG_EMAIL = 254  #Постоянная длины email пользователя
-LENG_MAX = 200  #Постоянная длины рецепта
-LENG_COLOR = 7  #Постоянная длины цвета
+LENG_DATA_USER = 150
+LENG_EMAIL = 254
+LENG_MAX = 200
+LENG_COLOR = 7
 RECIPES_LIMIT = 3
-INGREDIENT_MIN_AMOUNT = 1  #Минимальное значение ингредиента
-COOKING_TIME_MIN_VALUE = 1  #Минимальное значение время приготовления
+INGREDIENT_MIN_AMOUNT = 1
+COOKING_TIME_MIN_VALUE = 1
 # ----------------------------------------------------------------------------
 #Regular expressions
 USERNAME_REGEX = r'[\w\.@+-]+'
 COLOR_REGEX = r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
 # ----------------------------------------------------------------------------
 # Notifications
-
 MAX_NUMBER_OF_CHARACTERS = f'Количество символов не более {LENG_MAX}.'
 LIMITED_NUMBER_OF_CHARACTERS = f'Набор символов не более {LENG_DATA_USER}'
 NOT_ALLOWED_ME = ('Нельзя создать пользователя с '
@@ -190,7 +189,6 @@ TAG_ERROR = 'Рецепт не может быть без тегов!'
 TAG_UNIQUE_ERROR = 'Теги должны быть уникальными!'
 RECIPE_IN_FAVORITE = 'Вы уже добавили рецепт в избранное.'
 ALREADY_BUY = 'Вы уже добавили рецепт в список покупок.'
-# WAS_DELETE = 'Рецепт уже удален'
 UNIQUE_USERNAME = 'Пользователь с таким именем уже существует!'
 USERNAME_VALUE = (f'Набор символов не более {LENG_DATA_USER}.'
                   'Только буквы, цифры и @/./+/-/_')
