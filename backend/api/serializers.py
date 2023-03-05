@@ -1,12 +1,12 @@
-from drf_extra_fields.fields import Base64ImageField
-from django.db import models, transaction
 from django.conf import settings
-from rest_framework import (exceptions, fields, relations,
-                            serializers, status, validators)
+from django.db import models, transaction
+from drf_extra_fields.fields import Base64ImageField
+from rest_framework import (exceptions, fields, relations, serializers, status,
+                            validators)
 
-from recipes.models import (Favorite, Tag, Ingredient, Recipe,
-                            IngredientInRecipe, ShoppingCart)
-from users.models import User, Follow
+from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
+                            ShoppingCart, Tag)
+from users.models import Follow, User
 
 
 class ShowRecipeAddedSerializer(serializers.ModelSerializer):
