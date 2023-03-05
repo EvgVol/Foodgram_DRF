@@ -87,4 +87,4 @@ jobs:
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             echo DEBUG=${{ secrets.DEBUG }} >> .env
             cd infra/
-            sudo docker compose up -d
+            sudo docker-compose up -d --build
