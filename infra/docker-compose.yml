@@ -22,7 +22,7 @@ services:
       - ./.env
 
   frontend:
-    image: evol93/foodgram_fronted:latest
+    image: evol93/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
