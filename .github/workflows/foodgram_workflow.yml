@@ -76,7 +76,7 @@ jobs:
           script: |
             cd infra/
             sudo docker-compose stop
-            sudo rm .env
+            sudo rm -f .env
             sudo touch .env
             sudo echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             sudo echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -88,4 +88,4 @@ jobs:
             sudo echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env
             sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             sudo echo MODE=production
-            sudo docker-compose up -d
+            sudo docker-compose up -d --build
