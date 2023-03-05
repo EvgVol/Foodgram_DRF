@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   db:
+    container_name: db
     image: postgres:13.0-alpine
     restart: always
     volumes:
@@ -10,6 +11,7 @@ services:
       - ./.env
 
   backend:
+    container_name: backend
     image: evol93/foodgram_backend:latest
     restart: always
     volumes:
@@ -22,6 +24,7 @@ services:
       - ./.env
 
   frontend:
+    container_name: frontend
     image: evol93/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
@@ -29,6 +32,7 @@ services:
       - backend
 
   nginx:
+    container_name: proxy
     image: nginx:1.19.3
     restart: always
     ports:
@@ -46,6 +50,7 @@ services:
     # command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - backend
+      - frontend
 
   # certbot:
   #   image: certbot/certbot
