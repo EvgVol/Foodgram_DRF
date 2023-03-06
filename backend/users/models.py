@@ -27,6 +27,7 @@ class User(AbstractUser):
         max_length=settings.LENG_DATA_USER,
         blank=False,
         null=False,
+        help_text=settings.LIMITED_NUMBER_OF_CHARACTERS
     )
 
     last_name = models.CharField(
