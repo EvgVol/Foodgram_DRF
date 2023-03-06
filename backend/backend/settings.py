@@ -13,13 +13,13 @@ SECRET_KEY = config(
 
 DEBUG = config('DEBUG', cast=bool, default='False')
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='foodgram63.hopto.org')
 
 MODE = config('MODE', default='production')
 
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost, http://127.0.0.1',
+    default='http://foodgram63.hopto.org',
     cast=Csv()
 )
 
