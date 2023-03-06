@@ -4,7 +4,6 @@ services:
   db:
     container_name: db
     image: postgres:13.0-alpine
-    restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
@@ -12,8 +11,7 @@ services:
 
   backend:
     container_name: backend
-    build: ../backend
-    restart: always
+    image: evol93/foodgram_backend:latest
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
@@ -24,7 +22,7 @@ services:
 
   frontend:
     container_name: frontend
-    build: ../frontend
+    image: evol93/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:

@@ -88,5 +88,7 @@ jobs:
             sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             sudo echo MODE=${{ secrets.MODE }} >> .env
             cd ../infra/
+            sudo docker pull evol93/foodgram_backend:latest
+            sudo docker pull evol93/foodgram_frontend:latest
             sudo docker-compose stop
             sudo docker-compose up -d --build
