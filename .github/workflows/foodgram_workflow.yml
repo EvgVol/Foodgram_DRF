@@ -74,8 +74,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend:latest
             cd backend/
             sudo rm -f .env
             sudo touch .env
@@ -88,7 +86,7 @@ jobs:
             sudo echo DEBUG=${{ secrets.DEBUG }} >> .env
             sudo echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env
             sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
-            sudo echo MODE=production
+            sudo echo MODE=${{ secrets.MODE }} >> .env
             cd ../infra/
             sudo docker-compose stop
             sudo docker-compose up -d --build
