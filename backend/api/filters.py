@@ -4,7 +4,6 @@ from recipes.models import Recipe
 from users.models import User
 
 
-
 class RecipeFilter(FilterSet):
     """Фильтр для рецептов."""
 

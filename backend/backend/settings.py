@@ -6,13 +6,13 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-284jnm=8n5j4^#kfmroc%=@nj+qke7#n$gw54y0iba1-&##f(d')
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = config('DEBUG', cast=bool, default='True')
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
-MODE = config('MODE', default="dev")
+MODE = config('MODE')
 
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
@@ -140,13 +140,13 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    'LOGIN_FIELD': 'email', # не трогать
-    'HIDE_USER': 'True', # не трогать
-    "SERIALIZERS": {
-        "current_user": "api.serializers.UsersSerializer", # не трогать
+    'LOGIN_FIELD': 'email',
+    'HIDE_USER': 'True',
+    'SERIALIZERS': {
+        'current_user': 'api.serializers.UsersSerializer',
     },
     'PERMISSIONS': {
-        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'], # не трогать
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
     },
 }
 

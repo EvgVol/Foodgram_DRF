@@ -74,8 +74,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            cd infra/
-            sudo docker-compose stop
+            cd backend/
             sudo rm -f .env
             sudo touch .env
             sudo echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
@@ -88,4 +87,6 @@ jobs:
             sudo echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env
             sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             sudo echo MODE=production
+            cd ../infra/
+            sudo docker-compose stop
             sudo docker-compose up -d --build
