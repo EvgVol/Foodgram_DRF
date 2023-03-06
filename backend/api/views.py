@@ -1,6 +1,8 @@
+from urllib.parse import unquote
+
+from django.conf import settings
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
-from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
 from rest_framework import decorators, permissions, response, status, viewsets
 
@@ -82,8 +84,25 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = IngredientSerializer
     permission_classes = (permissions.AllowAny,)
     pagination_class = None
-    filter_backends = (DjangoFilterBackend,)
-    filterset_class = IngredientFilter
+
+    def get_queryset(self):
+        """Получает ингредиент в соответствии с параметрами запроса."""
+        name = self.request.query_params.get('name')
+        queryset = self.queryset
+        if name:
+            if name[0] == '%':
+                name = unquote(name)
+            else:
+                name = name.translate(settings.INCORRECT_LAYOUT)
+            name = name.lower()
+            start_queryset = list(queryset.filter(name__istartswith=name))
+            ingridients_set = set(start_queryset)
+            cont_queryset = queryset.filter(name__icontains=name)
+            start_queryset.extend(
+                [ing for ing in cont_queryset if ing not in ingridients_set]
+            )
+            queryset = start_queryset
+        return queryset
 
 
 class RecipeViewSet(viewsets.ModelViewSet):

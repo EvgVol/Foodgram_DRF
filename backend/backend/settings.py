@@ -143,14 +143,10 @@ DJOSER = {
     'LOGIN_FIELD': 'email', # не трогать
     'HIDE_USER': 'True', # не трогать
     "SERIALIZERS": {
-        # "user_create": "api.serializers.UsersSerializer",
-        # "user": "api.serializers.UsersSerializer",
         "current_user": "api.serializers.UsersSerializer", # не трогать
     },
     'PERMISSIONS': {
         'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'], # не трогать
-        # 'user_list': ['rest_framework.permissions.AllowAny'],
-        # 'current_user': ['rest_framework.permissions.AllowAny'],
     },
 }
 
@@ -172,6 +168,10 @@ LENG_COLOR = 7
 RECIPES_LIMIT = 3
 INGREDIENT_MIN_AMOUNT = 1
 COOKING_TIME_MIN_VALUE = 1
+INCORRECT_LAYOUT = str.maketrans(
+    'qwertyuiop[]asdfghjkl;\'zxcvbnm,./',
+    'йцукенгшщзхъфывапролджэячсмитьбю.'
+)
 # ----------------------------------------------------------------------------
 #Regular expressions
 USERNAME_REGEX = r'[\w\.@+-]+'
