@@ -1,13 +1,8 @@
 from django_filters.rest_framework import FilterSet, filters
-from rest_framework.filters import SearchFilter
 
 from recipes.models import Recipe
 from users.models import User
 
-
-class IngredientFilter(SearchFilter):
-    """Фильтр для ингредиентов."""
-    search_param = 'name'
 
 
 class RecipeFilter(FilterSet):

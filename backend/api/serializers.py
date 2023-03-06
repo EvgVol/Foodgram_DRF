@@ -197,13 +197,21 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create_bulk_ingredients(self, ingredients, recipe):
-        IngredientInRecipe.objects.bulk_create(
-            [IngredientInRecipe(
-                ingredient=Ingredient.objects.get(id=ingredient['id']),
+        for ingredient in ingredients:
+            IngredientInRecipe.objects.get_or_create(
                 recipe=recipe,
+                ingredient=ingredient['id'],
                 amount=ingredient['amount']
-            ) for ingredient in ingredients]
-        )
+            )
+    # @transaction.atomic
+    # def create_bulk_ingredients(self, ingredients, recipe):
+    #     IngredientInRecipe.objects.bulk_create(
+    #         [IngredientInRecipe(
+    #             ingredient=Ingredient.objects.get(id=ingredient['id']),
+    #             recipe=recipe,
+    #             amount=ingredient['amount']
+    #         ) for ingredient in ingredients]
+    #     )
 
     @transaction.atomic
     def create(self, validated_data):

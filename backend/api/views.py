@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import decorators, permissions, response, status, viewsets
 
-from .filters import IngredientFilter, RecipeFilter
+from .filters import RecipeFilter
 from .pagination import LimitPageNumberPagination
 from .permissions import AuthorOrReadOnly
 from .serializers import (AddFavoriteRecipeSerializer,
