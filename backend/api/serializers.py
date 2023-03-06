@@ -33,7 +33,7 @@ class UsersSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, author):
         """Проверка подписки пользователей."""
         request = self.context.get('request')
-        return (request is None  or request.user.is_authenticated
+        return (request is None or request.user.is_authenticated
                 and request.user.follower.filter(author=author).exists())
 
 
