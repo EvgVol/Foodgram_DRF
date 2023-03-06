@@ -58,7 +58,7 @@ class CustomUserViewSet(UserViewSet):
         В выдачу добавляются рецепты.
         """
         user = request.user
-        queryset = Follow.objects.filter(user=user)
+        queryset = User.objects.filter(following__user=user)
         pages = self.paginate_queryset(queryset)
         serializer = FollowSerializer(pages,
                                       many=True,

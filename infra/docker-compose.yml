@@ -8,11 +8,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./.env
+      - ../backend/.env
 
   backend:
     container_name: backend
-    image: evol93/foodgram_backend:latest
+    # image: evol93/foodgram_backend:latest
+    build: ../backend
     restart: always
     volumes:
       - data_value:/app/data/
@@ -21,11 +22,14 @@ services:
     depends_on:
       - db
     env_file:
-      - ./.env
+      - ../backend/.env
 
   frontend:
     container_name: frontend
-    image: evol93/foodgram_frontend:latest
+    # image: evol93/foodgram_frontend:latest
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:

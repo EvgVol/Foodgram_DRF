@@ -6,13 +6,19 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-284jnm=8n5j4^#kfmroc%=@nj+qke7#n$gw54y0iba1-&##f(d')
 
-DEBUG = config('DEBUG', cast=bool)
+DEBUG = config('DEBUG', cast=bool, default='True')
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
 
-MODE = config('MODE')
+MODE = config('MODE', default="dev")
+
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost, http://127.0.0.1',
+    cast=Csv()
+)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -134,9 +140,17 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    'LOGIN_FIELD': 'email',
+    'LOGIN_FIELD': 'email', # не трогать
+    'HIDE_USER': 'True', # не трогать
+    "SERIALIZERS": {
+        # "user_create": "api.serializers.UsersSerializer",
+        # "user": "api.serializers.UsersSerializer",
+        "current_user": "api.serializers.UsersSerializer", # не трогать
+    },
     'PERMISSIONS': {
-        'user': ('api.permissions.AuthorOrReadOnly',),
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'], # не трогать
+        # 'user_list': ['rest_framework.permissions.AllowAny'],
+        # 'current_user': ['rest_framework.permissions.AllowAny'],
     },
 }
 
