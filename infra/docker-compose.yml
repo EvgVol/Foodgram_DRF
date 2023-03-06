@@ -12,8 +12,7 @@ services:
 
   backend:
     container_name: backend
-    # image: evol93/foodgram_backend:latest
-    build: ../backend
+    image: evol93/foodgram_backend:latest
     restart: always
     volumes:
       - data_value:/app/data/
@@ -26,10 +25,7 @@ services:
 
   frontend:
     container_name: frontend
-    # image: evol93/foodgram_frontend:latest
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: evol93/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
