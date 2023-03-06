@@ -11,11 +11,11 @@ SECRET_KEY = config(
     default='django-insecure-284jnm=8n5j4^#kfmroc%=@nj+qke7#n$gw54y0iba1-&##f(d'
 )
 
-DEBUG = config('DEBUG', cast=bool)
+DEBUG = config('DEBUG', cast=bool, default='False')
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
-MODE = config('MODE')
+MODE = config('MODE', default='production')
 
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
@@ -160,6 +160,22 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 DEFAULT_FROM_EMAIL = 'admin@foodgram.cook'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG' if DEBUG else 'ERROR',
+            'handlers': ['console', ],
+        },
+    },
+}
 
 # Далее вынесены постоянные которые нужны для работы проекта
 # ----------------------------------------------------------------------------
