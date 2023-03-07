@@ -74,9 +74,11 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
+            cd infra/
             sudo docker-compose stop
             sudo docker-compose rm
-            cd infra/
+            sudo docker-compose pull evol93/frontend_foodgram:latest
+            sudo docker-compose pull evol93/backend_foodgram:latest
             sudo rm .env
             sudo touch .env
             sudo echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env

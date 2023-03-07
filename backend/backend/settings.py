@@ -19,7 +19,7 @@ ALLOWED_HOSTS = [
     config('ALLOWED_HOSTS', cast=Csv(), default='*')
 ]
 
-CSRF_TRUSTED_ORIGINS = [f'http://{ALLOWED_HOSTS}']
+CSRF_TRUSTED_ORIGINS = [f'http://{ALLOWED_HOSTS}/']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
