@@ -1,30 +1,25 @@
-import os
 from pathlib import Path
+
 from dotenv import load_dotenv
+from decouple import Csv, config
 
 
 load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = {
-    'SECRET_KEY': os.getenv(
-        'SECRET_KEY',
-        default='django-insecure-284jnm=8n5j4^#kfmroc%=@nj+qke7#n$gw54y0iba1-&##f(d',
-    ),
-}
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = os.getenv('DEBUG', default=False) == 'True'
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = {
-    'ALLOWED_HOSTS': os.getenv('ALLOWED_HOSTS', default='localhost',),
-}
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
-CSRF_TRUSTED_ORIGINS = {
-    'CSRF_TRUSTED_ORIGINS': os.getenv(
-        'CSRF_TRUSTED_ORIGINS', default='http://localhost',
-    ),
-}
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost, http://127.0.0.1',
+    cast=Csv()
+)
+
+MODE=config('MODE')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -75,16 +70,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DB_ENGINE', default="django.db.backends.postgresql"),
-        'NAME': os.getenv('DB_NAME', default="postgres"),
-        'USER': os.getenv('DB_USER', default="postgres"),
-        'PASSWORD': os.getenv('DB_PASSWORD', default="postgres"),
-        'HOST': os.getenv('DB_HOST', default="db"),
-        'PORT': os.getenv('DB_PORT', default="5432")
+if config('MODE') == "dev":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DB_ENGINE'),
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT')
+        }
+    }
 
 AUTH_USER_MODEL = 'users.User'
 

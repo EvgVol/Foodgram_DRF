@@ -38,6 +38,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - frontend
+      - backend
 
 volumes:
   postgres_data:
