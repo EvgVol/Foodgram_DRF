@@ -1,8 +1,6 @@
 import os
-from pathlib import Path
 
 from dotenv import load_dotenv
-from decouple import Csv, config
 
 
 load_dotenv()
@@ -69,8 +67,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 if os.getenv('DEBUG') == "True":
     DATABASES = {
         'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
 else:
