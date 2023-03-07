@@ -19,7 +19,7 @@ CSRF_TRUSTED_ORIGINS = config(
     cast=Csv()
 )
 
-MODE=config('MODE')
+MODE = config('MODE')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
