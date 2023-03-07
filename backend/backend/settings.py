@@ -12,21 +12,19 @@ SECRET_KEY = config(
     default='django-insecure-284jnm=8n5j4^#kfmroc%=@nj+qke7#n$gw54y0iba1-&##f(d'
 )
 
-DEBUG = config('DEBUG', cast=Csv(), default='False')
+DEBUG = config('DEBUG', default='False')
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
-    cast=Csv(),
     default='foodgram63.hopto.org'
 )
 
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
-    cast=Csv(),
     default='http://foodgram63.hopto.org',
 )
 
-MODE = config('MODE', cast=Csv(), default='production')
+MODE = config('MODE', default='production')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
