@@ -2,7 +2,6 @@ version: '3.3'
 
 services:
   db:
-    container_name: db
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -10,8 +9,7 @@ services:
       - ./.env
 
   backend:
-    container_name: backend
-    image: evol93/foodgram_backend:latest
+    image: evol93/backend_foodgram:latest
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
@@ -21,15 +19,13 @@ services:
       - ./.env
 
   frontend:
-    container_name: frontend
-    image: evol93/foodgram_frontend:latest
+    image: evol93/backend_foodgram:latest
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
       - backend
 
   nginx:
-    container_name: proxy
     image: nginx:1.19.3
     restart: always
     ports:
