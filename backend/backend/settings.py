@@ -11,9 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = {
-    'ALLOWED_HOSTS': os.getenv('ALLOWED_HOSTS'),
-}
+ALLOWED_HOSTS = ["84.201.163.40"]
 
 CSRF_TRUSTED_ORIGINS = [os.getenv('CSRF_TRUSTED_ORIGINS')]
 
