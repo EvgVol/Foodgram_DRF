@@ -76,8 +76,6 @@ jobs:
           script: |
             sudo docker-compose stop
             sudo docker-compose rm
-            sudo docker pull evol93/backend_foodgram:latest
-            sudo docker pull evol93/frontend_foodgram:latest
             sudo rm .env
             sudo touch .env
             sudo echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
