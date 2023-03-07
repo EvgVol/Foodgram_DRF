@@ -13,9 +13,9 @@ SECRET_KEY = {
 
 DEBUG = os.getenv('DEBUG', default=False) == 'True'
 
-ALLOWED_HOSTS = {
-    'ALLOWED_HOSTS': os.getenv('ALLOWED_HOSTS'),
-}
+ALLOWED_HOSTS = [
+    {'ALLOWED_HOSTS': os.getenv('ALLOWED_HOSTS'),}
+]
 
 CSRF_TRUSTED_ORIGINS = {
     'CSRF_TRUSTED_ORIGINS': os.getenv('CSRF_TRUSTED_ORIGINS'),
@@ -157,22 +157,6 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 DEFAULT_FROM_EMAIL = 'admin@foodgram.cook'
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG' if DEBUG else 'ERROR',
-            'handlers': ['console', ],
-        },
-    },
-}
 
 # Далее вынесены постоянные которые нужны для работы проекта
 # ----------------------------------------------------------------------------
