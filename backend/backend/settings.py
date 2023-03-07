@@ -5,6 +5,7 @@ from decouple import Csv, config
 
 
 load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config(
@@ -14,15 +15,15 @@ SECRET_KEY = config(
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
+ALLOWED_HOSTS = [
+    config('ALLOWED_HOSTS', cast=Csv(), default='*')
+]
 
-CSRF_TRUSTED_ORIGINS = config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost, http://127.0.0.1',
-    cast=Csv()
-)
-
-MODE = config('MODE', default="dev")
+CSRF_TRUSTED_ORIGINS = [
+    config('CSRF_TRUSTED_ORIGINS',
+           default='http://localhost, http://127.0.0.1',
+           cast=Csv())
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
