@@ -90,4 +90,6 @@ jobs:
             cd ../infra/
             sudo docker-compose stop
             sudo docker-compose rm
+            sudo docker-compose pull evol93/foodgram_backend:latest
+            sudo docker-compose pull evol93/foodgram_frontend:latest
             sudo docker-compose up -d --build
