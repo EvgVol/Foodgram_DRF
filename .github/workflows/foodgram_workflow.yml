@@ -87,7 +87,6 @@ jobs:
             sudo echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             sudo echo DEBUG=${{ secrets.DEBUG }} >> .env
             sudo echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env
-            sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+            sudo echo ALLOWED_HOSTS=['${{ secrets.ALLOWED_HOSTS }}'] >> .env
             sudo echo CSRF_TRUSTED_ORIGINS="${{ secrets.CSRF_TRUSTED_ORIGINS }}" >> .env
-            cd ../
             sudo docker-compose up -d --build
