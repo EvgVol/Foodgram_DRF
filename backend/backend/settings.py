@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -5,26 +6,16 @@ from decouple import Csv, config
 
 
 load_dotenv()
-BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config(
-    'SECRET_KEY',
-    default='django-insecure-284jnm=8n5j4^#kfmroc%=@nj+qke7#n$gw54y0iba1-&##f(d'
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = config('DEBUG', default='False')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default='foodgram63.hopto.org'
-)
+DEBUG = os.getenv('DEBUG')
 
-CSRF_TRUSTED_ORIGINS = config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='http://foodgram63.hopto.org',
-)
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS')]
 
-MODE = config('MODE', default='production')
+CSRF_TRUSTED_ORIGINS = [os.getenv('CSRF_TRUSTED_ORIGINS')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -75,22 +66,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-if config('MODE') == "dev":
+if os.getenv('DEBUG') == "True":
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
 else:
     DATABASES = {
         'default': {
-            'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
-            'NAME': config('DB_NAME', default='postgres'),
-            'USER': config('DB_USER', default='postgres'),
-            'PASSWORD': config('DB_PASSWORD', default='postgres'),
-            'HOST': config('DB_HOST', default='db'),
-            'PORT': config('DB_PORT', default='5432')
+            'ENGINE': os.getenv('DB_ENGINE', default="django.db.backends.postgresql"),
+            'NAME': os.getenv('DB_NAME', default="postgres"),
+            'USER': os.getenv('POSTGRES_USER', default="postgres"),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', default="postgres"),
+            'HOST': os.getenv('DB_HOST', default="db"),
+            'PORT': os.getenv('DB_PORT', default="5432")
         }
     }
 
@@ -122,10 +113,10 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
@@ -160,7 +151,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 
-EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
 DEFAULT_FROM_EMAIL = 'admin@foodgram.cook'
 

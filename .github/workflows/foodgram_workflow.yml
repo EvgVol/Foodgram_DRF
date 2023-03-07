@@ -38,28 +38,28 @@ jobs:
         - name: Check out the repo
           uses: actions/checkout@v2
 
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v1
-
         - name: Login to Docker
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
+        
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
 
         - name: Push backend
           uses: docker/build-push-action@v2
           with:
             context: backend/
             push: true
-            tags: evol93/backend_foodgram:latest
+            tags: evol93/foodgram_backend:latest
 
         - name: Push frontend
           uses: docker/build-push-action@v2
           with:
             context: frontend/
             push: true
-            tags: evol93/frontend_foodgram:latest
+            tags: evol93/foodgram_frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -84,7 +84,6 @@ jobs:
             sudo echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             sudo echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             sudo echo DEBUG=${{ secrets.DEBUG }} >> .env
-            sudo echo MODE=${{ secrets.MODE }} >> .env
             sudo echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             sudo echo CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }} >> .env

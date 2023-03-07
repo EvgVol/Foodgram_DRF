@@ -9,7 +9,7 @@ services:
       - ../backend/.env
 
   backend:
-    image: evol93/backend_foodgram:latest
+    image: evol93/foodgram_backend:latest
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
@@ -19,7 +19,7 @@ services:
       - ../backend/.env
 
   frontend:
-    image: evol93/frontend_foodgram:latest
+    image: evol93/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
