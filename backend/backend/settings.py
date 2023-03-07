@@ -6,22 +6,15 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config(
-    'SECRET_KEY',
-    default='django-insecure-284jnm=8n5j4^#kfmroc%=@nj+qke7#n$gw54y0iba1-&##f(d'
-)
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = config('DEBUG', cast=bool, default='False')
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='foodgram63.hopto.org')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
-MODE = config('MODE', default='production')
+MODE = config('MODE')
 
-CSRF_TRUSTED_ORIGINS = config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='http://foodgram63.hopto.org',
-    cast=Csv()
-)
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', cast=Csv())
 
 INSTALLED_APPS = [
     'django.contrib.admin',
