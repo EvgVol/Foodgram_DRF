@@ -52,7 +52,7 @@ jobs:
           with:
             context: backend/
             push: true
-            tags: evol93/backend:latest
+            tags: evol93/backend_foodgram:latest
 
         - name: Push frontend
           uses: docker/build-push-action@v2
