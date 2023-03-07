@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ["84.201.163.40"]
+ALLOWED_HOSTS = ["84.201.163.40", "backend"]
 
 CSRF_TRUSTED_ORIGINS = ["http://84.201.163.40"]
 
