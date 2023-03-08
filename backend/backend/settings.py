@@ -1,25 +1,24 @@
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
-from decouple import config
 
 
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config(
-    'SECRET_KEY',
-    default='django-insecure-284jnm=8n5j4^#kfmroc%=@nj+qke7#n$gw54y0iba1-&##f(d'
-)
+SECRET_KEY = {
+    'SECRET_KEY': os.getenv('SECRET_KEY'),
+}
 
-DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default=['127.0.0.1']
-)
+DEBUG = {
+    'DEBUG': os.getenv('DEBUG'),
+}
 
-MODE = config('MODE', cast=str, default='dev')
+ALLOWED_HOSTS = {
+    'ALLOWED_HOSTS': os.getenv('ALLOWED_HOSTS'),
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -70,24 +69,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-if config('MODE') == "dev":
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+{
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE', default="django.db.backends.postgresql"),
+        'NAME': os.getenv('DB_NAME', default="postgres"),
+        'USER': os.getenv('DB_USER', default="postgres"),
+        'PASSWORD': os.getenv('DB_PASSWORD', default="postgres"),
+        'HOST': os.getenv('DB_HOST', default="db"),
+        'PORT': os.getenv('DB_PORT', default="5432")
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
-            'NAME': config('DB_NAME', default='postgres'),
-            'USER': config('DB_USER', default='postgres'),
-            'PASSWORD': config('DB_PASSWORD', default='postgres'),
-            'HOST': config('DB_HOST', default='db'),
-            'PORT': config('DB_PORT', cast=int, default='5432')
-        }
-    }
+}
 
 AUTH_USER_MODEL = 'users.User'
 
