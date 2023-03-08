@@ -23,7 +23,7 @@ ALLOWED_HOSTS = config(
 MODE = config('MODE', cast=str, default='dev')
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
