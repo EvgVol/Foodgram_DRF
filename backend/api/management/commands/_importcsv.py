@@ -12,9 +12,9 @@ FILE_DIR = os.path.join(settings.BASE_DIR, 'data')
 def import_csv():
     """Импортер данных из csv."""
     with open(
-        os.path.join(FILE_DIR, 'ingredients.csv'), 'r', encoding='utf-8'
+        os.path.join(FILE_DIR, 'ingredients.csv'), encoding='utf-8'
     ) as csvfile:
-        reader = csv.reader(csvfile)
+        reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
             name, measurement_unit = row
             Ingredient.objects.get_or_create(name=name,
