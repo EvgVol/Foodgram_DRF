@@ -21,8 +21,9 @@ def add_and_del(add_serializer, model, request, recipe_id):
         serializer.save()
         return response.Response(serializer.data,
                                  status=status.HTTP_201_CREATED)
-    recipe = get_object_or_404(Recipe, id=recipe_id)
-    get_object_or_404(model, user=user, recipe=recipe).delete()
+    get_object_or_404(
+        model, user=user, recipe=get_object_or_404(Recipe, id=recipe_id)
+    ).delete()
     return response.Response(status=status.HTTP_204_NO_CONTENT)
 
 
