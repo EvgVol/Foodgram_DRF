@@ -33,7 +33,7 @@ class UsersSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, author):
         """Проверка подписки пользователей."""
         request = self.context.get('request')
-        return (request is None or request.user.is_authenticated
+        return (request is None and request.user.is_authenticated
                 and request.user.follower.filter(author=author).exists())
 
 
@@ -160,13 +160,13 @@ class RecipeReadSerializer(serializers.ModelSerializer):
     def get_is_favorited(self, obj):
         """Проверка - находится ли рецепт в избранном."""
         request = self.context.get('request')
-        return (request is None or request.user.is_authenticated
+        return (request is None and request.user.is_authenticated
                 and request.user.favorites.filter(recipe=obj).exists())
 
     def get_is_in_shopping_cart(self, obj):
         """Проверка - находится ли рецепт в списке покупок."""
         request = self.context.get('request')
-        return (request is None or request.user.is_authenticated
+        return (request is None and request.user.is_authenticated
                 and request.user.shopping_list.filter(recipe=obj).exists())
 
 

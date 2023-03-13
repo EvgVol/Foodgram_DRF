@@ -14,7 +14,7 @@ def import_csv():
     with open(
         os.path.join(FILE_DIR, 'ingredients.csv'), encoding='utf-8'
     ) as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=",")
+        reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
             name, measurement_unit = row
             Ingredient.objects.get_or_create(name=name,
