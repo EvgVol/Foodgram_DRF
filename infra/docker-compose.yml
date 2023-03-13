@@ -6,11 +6,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ../backend/.env
+      - ../.env
 
   backend:
-    # image: evol93/foodgram_backend:latest
-    build: ../backend
+    image: evol93/foodgram_backend:latest
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
@@ -18,13 +17,10 @@ services:
     depends_on:
       - db
     env_file:
-      - ../backend/.env
+      - ../.env
 
   frontend:
-    # image: evol93/foodgram_frontend:latest
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: evol93/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
