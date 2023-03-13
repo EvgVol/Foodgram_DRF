@@ -45,7 +45,7 @@ class FollowSerializer(UsersSerializer):
 
     class Meta(UsersSerializer.Meta):
         fields = UsersSerializer.Meta.fields + ('recipes', 'recipes_count',)
-        read_only_fields = ('email', 'username', 'last_name', 'fisrt_name',)
+        read_only_fields = ('email', 'username', 'last_name', 'first_name',)
 
     def validate(self, data):
         """Проверяем наличие подписки у пользователя и отсекаем самого себя."""
