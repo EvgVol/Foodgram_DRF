@@ -117,7 +117,7 @@ sudo docker-compose exec backend python manage.py importcsv
 
 ## Документация к API   
 Чтобы открыть документацию локально, запустите сервер и перейдите по ссылке:
-[REDOC](http://130.193.41.225/api/docs/)
+[http://localhost/api/docs/](http://localhost/api/docs/) или воспользуйтесь докой на моей сервере: [REDOC](http://130.193.41.225/api/docs/)
 
 
 # **Автор проекта: [Евгений Волочек](https://github.com/EvgVol)**
