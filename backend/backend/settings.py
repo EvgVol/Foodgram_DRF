@@ -16,7 +16,7 @@ DEBUG = config('DEBUG', cast=bool, default=True)
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
     cast=Csv(),
-    default='127.0.0.1'
+    default='127.0.0.1, localhost, testserver, [::1],'
 )
 
 MODE = config('MODE', cast=str, default='dev')
