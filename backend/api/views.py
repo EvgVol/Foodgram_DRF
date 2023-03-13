@@ -44,7 +44,6 @@ class CustomUserViewSet(UserViewSet):
                                           data=request.data,
                                           context={'request': request})
             serializer.is_valid(raise_exception=True)
-            serializer.save()
             Follow.objects.create(user=user, author=author)
             return response.Response(serializer.data,
                                      status=status.HTTP_201_CREATED)
@@ -60,13 +59,15 @@ class CustomUserViewSet(UserViewSet):
         """Возвращает пользователей, на которых подписан текущий пользователь.
         В выдачу добавляются рецепты.
         """
-        pages = self.paginate_queryset(
-            User.objects.filter(following__user=request.user)
+        return self.get_paginated_response(
+            FollowSerializer(
+                self.paginate_queryset(
+                    User.objects.filter(following__user=request.user)
+                ),
+                many=True,
+                context={'request': request},
+            ).data
         )
-        serializer = FollowSerializer(pages,
-                                      many=True,
-                                      context={'request': request})
-        return self.get_paginated_response(serializer.data)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -102,7 +103,8 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
             start_queryset.extend(
                 [ing for ing in cont_queryset if ing not in ingridients_set]
             )
-        return start_queryset
+            queryset = start_queryset
+        return queryset
 
 
 class RecipeViewSet(viewsets.ModelViewSet):

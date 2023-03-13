@@ -40,20 +40,12 @@ class UsersSerializer(serializers.ModelSerializer):
 class FollowSerializer(UsersSerializer):
     """Сериализатор вывода авторов на которых подписан текущий пользователь."""
 
-    id = serializers.ReadOnlyField(source='author.id')
-    email = serializers.ReadOnlyField(source='author.email')
-    username = serializers.ReadOnlyField(source='author.username')
-    first_name = serializers.ReadOnlyField(source='author.first_name')
-    last_name = serializers.ReadOnlyField(source='author.last_name')
-    is_subscribed = serializers.SerializerMethodField()
-    recipes = serializers.SerializerMethodField()
-    recipes_count = serializers.SerializerMethodField()
+    recipes = serializers.SerializerMethodField(read_only=True)
+    recipes_count = serializers.SerializerMethodField(read_only=True)
 
-    class Meta:
-        model = Follow
-        fields = ('id', 'email', 'username', 'first_name', 'last_name',
-                  'is_subscribed', 'recipes', 'recipes_count')
-        read_only_fields = '__all__',
+    class Meta(UsersSerializer.Meta):
+        fields = UsersSerializer.Meta.fields + ('recipes', 'recipes_count',)
+        read_only_fields = ('email', 'username', 'last_name', 'fisrt_name',)
 
     def validate(self, data):
         """Проверяем наличие подписки у пользователя и отсекаем самого себя."""
