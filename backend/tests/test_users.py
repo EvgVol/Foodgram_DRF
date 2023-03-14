@@ -305,3 +305,17 @@ class Test01UserAPI:
         assert get_user_model().objects.count() == users_before, (
             'Проверьте, что при DELETE запросе `/api/users/{id}/` не удаляете пользователя'
         )
+
+    @pytest.mark.django_db(transaction=True)
+    def test_07_01_users_id_delete_users(self, auth_client_super, user_1):
+        users_before = get_user_model().objects.count()
+        response = auth_client_super.delete(f'/api/users/{user_1.id}/')
+        code = 204
+        assert response.status_code == code, (
+            'Проверьте, что при DELETE запросе `/api/users/{id}/` '
+            f'от суперпользователя, возвращаете статус {code}'
+        )
+        assert get_user_model().objects.count() == users_before - 1, (
+            'Проверьте, что при DELETE запросе `/api/users/{id}/` '
+            'от суперпользователя, пользователь удаляется.'
+        )
