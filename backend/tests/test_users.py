@@ -126,42 +126,120 @@ class Test01UserAPI:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_04_01_users_get_admin_only(self, auth_client_super, superuser):
+    def test_04_01_users_get_admin_only(self, auth_client_super):
         response = auth_client_super.get('/api/users/')
         assert response.status_code != 404, (
             'Страница `/api/users/` не найдена, проверьте этот адрес в *urls.py*'
         )
         assert response.status_code == 200, (
-            'Проверьте, что при GET запросе `/api/users/` с токеном авторизации возвращается статус 200'
+            'Проверьте, что при GET запросе `/api/users/` от суперпользователя с токеном авторизации возвращается статус 200'
         )
         data = response.json()
         assert 'count' in data, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
             'Не найден параметр `count`'
         )
         assert 'next' in data, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
             'Не найден параметр `next`'
         )
         assert 'previous' in data, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
             'Не найден параметр `previous`'
         )
         assert 'results' in data, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
             'Не найден параметр `results`'
         )
         assert data['count'] == 4, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
             'Значение параметра `count` не правильное'
         )
         assert type(data['results']) == list, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
             'Тип параметра `results` должен быть список'
         )
         assert (
             len(data['results']) == 4
         ), (
+            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
+            'Значение параметра `results` не правильное'
+        )
+
+    @pytest.mark.django_db(transaction=True)
+    def test_05_01_users_post_guest(self, client, auth_client_super, superuser):
+        empty_data = {}
+        response = client.post('/api/users/', data=empty_data)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` с пустыми данными возвращаетe 400'
+        )
+        no_email_data = {
+            'username': 'TestUser_noemail',
+            'password': 'testPass1'
+        }
+        response = client.post('/api/users/', data=no_email_data)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` без email, возвращаетe статус 400'
+        )
+        valid_email = 'valid_email@foodgram.cook'
+        no_username_data = {
+            'email': valid_email,
+            'password': 'testPass1'
+        }
+        response = client.post('/api/users/', data=no_username_data)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` без username, возвращаетe статус 400'
+        )
+        duplicate_email = {
+            'username': 'TestSuperUser_duplicate',
+            'email': superuser.email
+        }
+        response = client.post('/api/users/', data=duplicate_email)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` с уже существующим email, возвращаете статус 400. '
+            '`Email` должен быть уникальный у каждого прользователя'
+        )
+        duplicate_username = {
+            'username': superuser.username,
+            'email': valid_email
+        }
+        response = client.post('/api/users/', data=duplicate_username)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` с уже существующим username, возвращаете статус 400. '
+            '`Username` должен быть уникальный у каждого прользователя'
+        )
+        data = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'username': 'test_username',
+            'password': 'qwerty1123zxc',
+            'email': 'new_user@foodgram.cook'
+        }
+        response = client.post('/api/users/', data=data)
+        assert response.status_code == 201, (
+            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращает 201.'
+        )
+        response_data = response.json()
+        assert response_data.get('first_name') == data['first_name'], (
+            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращаете `first_name`.'
+        )
+        assert response_data.get('last_name') == data['last_name'], (
+            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращаете `last_name`.'
+        )
+        assert response_data.get('username') == data['username'], (
+            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращаете `username`.'
+        )
+        assert response_data.get('email') == data['email'], (
+            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращаете `email`.'
+        )
+        User = get_user_model()
+        users = User.objects.all()
+        assert get_user_model().objects.count() == users.count(), (
+            'Проверьте, что при POST запросе `/api/users/` вы создаёте пользователей.'
+        )
+        response = auth_client_super.get('/api/users/')
+        data = response.json()
+        assert len(data['results']) == 5, (
             'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
             'Значение параметра `results` не правильное'
         )
