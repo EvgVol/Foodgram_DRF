@@ -243,3 +243,25 @@ class Test01UserAPI:
             'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
             'Значение параметра `results` не правильное'
         )
+
+    @pytest.mark.django_db(transaction=True)
+    def test_05_02_users_post_user_superuser(self, auth_client_super):
+        users = get_user_model().objects.all()
+        users_before = users.count()
+        valid_data = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'username': 'test_username',
+            'password': 'qwerty1123zxc',
+            'email': 'new_user@foodgram.cook'
+        }
+        response = auth_client_super.post('/api/users/', data=valid_data)
+        assert response.status_code == 201, (
+            'Проверьте, что при POST запросе `/api/users/` от суперпользователя, '
+            'с правильными данными, возвращаете статус 201.'
+        )
+        users_after = users.count()
+        assert users_after == users_before + 1, (
+            'Проверьте, что при POST запросе `/api/users/` от суперпользователя, '
+            'с правильными данными, создается пользователь.'
+        )
