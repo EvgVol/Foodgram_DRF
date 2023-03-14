@@ -53,6 +53,12 @@ def auth_client_3(unauth_client, user_3):
 
 
 @pytest.fixture
+def auth_client_super(unauth_client, superuser):
+    unauth_client.force_authenticate(user=superuser)
+    return unauth_client
+
+
+@pytest.fixture
 def invalid_token_client(unauth_client):
     unauth_client.credentials(HTTP_AUTHORIZATION='Token ' + 'invalid_token')
     return unauth_client

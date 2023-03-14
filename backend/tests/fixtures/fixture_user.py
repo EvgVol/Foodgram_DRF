@@ -43,3 +43,14 @@ def user_3(django_user_model):
         first_name='TestUser3',
         last_name='TestUser3'
     )
+
+
+@pytest.fixture
+def superuser(django_user_model):
+    return django_user_model.objects.create_superuser(
+        username='admin',
+        password='TestPassword4',
+        email='admin@foodgram.cook',
+        first_name='TestAdmin-fn',
+        last_name='TestAdmin_ln'
+    )
