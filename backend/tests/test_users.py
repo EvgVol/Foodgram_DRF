@@ -265,3 +265,43 @@ class Test01UserAPI:
             'Проверьте, что при POST запросе `/api/users/` от суперпользователя, '
             'с правильными данными, создается пользователь.'
         )
+
+    @pytest.mark.django_db(transaction=True)
+    def test_06_01_users_id_patch_admin(self, auth_client_super, auth_client_1, user_1):
+        data = {
+            'first_name': 'NewFirstName',
+            'last_name': 'NewLastName',
+        }
+        response = auth_client_1.patch(f'/api/users/{user_1.id}/', data=data)
+        assert response.status_code == 200, (
+            'Проверьте, что при PATCH запросе `/api/users/{id}/` '
+            'с токеном авторизации возвращается статус 200'
+        )
+        test_data = get_user_model().objects.get(id=user_1.id)
+        assert test_data.first_name == data['first_name'], (
+            'Проверьте, что при PATCH запросе `/api/users/{id}/` изменяете имя.'
+        )
+        assert test_data.last_name == data['last_name'], (
+            'Проверьте, что при PATCH запросе `/api/users/{id}/` изменяете фамилию.'
+        )
+        response = auth_client_super.patch(f'/api/users/{user_1.id}/', data={'first_name': 'New2FirstName'})
+        assert response.status_code == 200, (
+            'Проверьте, что при PATCH запросе `/api/users/{id}/` '
+            'от суперпользователя можно изменить Имя пользователя'
+        )
+        response = auth_client_super.patch(f'/api/users/{user_1.id}/', data={'last_name': 'NewLastName'})
+        assert response.status_code == 200, (
+            'Проверьте, что при PATCH запросе `/api/users/{id}/` '
+            'от суперпользователя можно изменить Фамилию пользователя'
+        )
+
+    @pytest.mark.django_db(transaction=True)
+    def test_07_01_users_id_delete_users(self, auth_client_1, user_2):
+        users_before = get_user_model().objects.count()
+        response = auth_client_1.delete(f'/api/users/{user_2.id}/')
+        assert response.status_code == 403, (
+            'Проверьте, что при DELETE запросе `/api/users/{id}/` возвращаете статус 403'
+        )
+        assert get_user_model().objects.count() == users_before, (
+            'Проверьте, что при DELETE запросе `/api/users/{id}/` не удаляете пользователя'
+        )
