@@ -13,14 +13,14 @@ def tag_breakfast():
 @pytest.fixture
 def tag_dinner():
     return Tag.objects.create(
-        name='Обед', color='#E26C2D', slug='dinner'
+        name='Обед', color='#ffff00', slug='dinner'
     )
 
 
 @pytest.fixture
 def tag_supper():
     return Tag.objects.create(
-        name='Ужин', color='#E26C2D', slug='supper'
+        name='Ужин', color='#ff0000', slug='supper'
     )
 
 

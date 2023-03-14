@@ -2,6 +2,17 @@ import pytest
 
 
 @pytest.fixture
+def superuser(django_user_model):
+    return django_user_model.objects.create_superuser(
+        username='TestSuperuser',
+        email='testsuperuser@foodgram.cook',
+        password='1234567',
+        first_name='Admin',
+        last_name='SuperUser'
+    )
+
+
+@pytest.fixture
 def user_1(django_user_model):
     return django_user_model.objects.create_user(
         username='TestUser1',
