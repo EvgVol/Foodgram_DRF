@@ -296,6 +296,19 @@ class Test01UserAPI:
         )
 
     @pytest.mark.django_db(transaction=True)
+    def test_06_02_users_id_patch_user(self, auth_client_1, user_2):
+        data = {
+            'first_name': 'New USer Firstname',
+            'last_name': 'New USer Lastname'
+        }
+        response = auth_client_1.patch(f'/api/users/{user_2.id}/', data=data)
+        assert response.status_code == 404, (
+            'Проверьте, что при PATCH запросе `/api/users/{id}/` '
+            'одним пользователем данные другого пользователя скрыты. '
+        )
+
+
+    @pytest.mark.django_db(transaction=True)
     def test_07_01_users_id_delete_users(self, auth_client_1, user_2):
         users_before = get_user_model().objects.count()
         response = auth_client_1.delete(f'/api/users/{user_2.id}/')
@@ -307,7 +320,7 @@ class Test01UserAPI:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_07_01_users_id_delete_users(self, auth_client_super, user_1, superuser):
+    def test_07_02_users_id_delete_super(self, auth_client_super, user_1, superuser):
         users_before = get_user_model().objects.count()
         response = auth_client_super.delete(f'/api/users/{user_1.id}/', data={'current_password': 'TestPassword4'})
         code = 204
@@ -319,3 +332,5 @@ class Test01UserAPI:
             'Проверьте, что при DELETE запросе `/api/users/{id}/` '
             'от суперпользователя, пользователь удаляется.'
         )
+
+
