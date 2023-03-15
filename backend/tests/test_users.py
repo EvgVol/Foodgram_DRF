@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth import get_user_model
 
+
 class Test01UserAPI:
 
     @pytest.mark.django_db(transaction=True)
