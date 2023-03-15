@@ -9,11 +9,13 @@ class Test01UserAPI:
         response = unauth_client.get('/api/users/')
 
         assert response.status_code != 404, (
-            'Страница `/api/users/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/users/` не найдена, проверьте этот адрес в '
+            '*urls.py*'
         )
 
         assert response.status_code == 401, (
-            'Проверьте, что при GET запросе `/api/users/` без токена авторизации возвращается статус 401'
+            'Проверьте, что при GET запросе `/api/users/` без токена '
+            'авторизации возвращается статус 401'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -21,11 +23,13 @@ class Test01UserAPI:
         response = unauth_client.get(f'/api/users/{user_1.id}/')
 
         assert response.status_code != 404, (
-            'Страница `/api/users/{id}/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/users/{id}/` не найдена, проверьте этот адрес в '
+            '*urls.py*'
         )
 
         assert response.status_code == 401, (
-            'Проверьте, что при GET запросе `/api/users/{id}/` без токена авторизации возвращается статус 401'
+            'Проверьте, что при GET запросе `/api/users/{id}/` без токена '
+            'авторизации возвращается статус 401'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -33,45 +37,54 @@ class Test01UserAPI:
         response = unauth_client.get('/api/users/me/')
 
         assert response.status_code != 404, (
-            'Страница `/api/users/me/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/users/me/` не найдена, проверьте этот адрес в '
+            '*urls.py*'
         )
 
         assert response.status_code == 401, (
-            'Проверьте, что при GET запросе `/api/users/me/` без токена авторизации возвращается статус 401'
+            'Проверьте, что при GET запросе `/api/users/me/` без токена '
+            'авторизации возвращается статус 401'
         )
 
     @pytest.mark.django_db(transaction=True)
     def test_04_users_get_users(self, auth_client_1, user_1):
         response = auth_client_1.get('/api/users/')
         assert response.status_code != 404, (
-            'Страница `/api/users/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/users/` не найдена, проверьте этот адрес в '
+            '*urls.py*'
         )
         assert response.status_code == 200, (
-            'Проверьте, что при GET запросе `/api/users/` с токеном авторизации возвращается статус 200'
+            'Проверьте, что при GET запросе `/api/users/` с токеном '
+            'авторизации возвращается статус 200'
         )
         data = response.json()
         assert 'count' in data, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
-            'Не найден параметр `count`'
+            'Проверьте, что при GET запросе `/api/users/` возвращаете данные '
+            'с пагинацией. Не найден параметр `count`'
         )
         assert 'next' in data, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` возвращаете данные '
+            'с пагинацией. '
             'Не найден параметр `next`'
         )
         assert 'previous' in data, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` возвращаете данные '
+            'с пагинацией. '
             'Не найден параметр `previous`'
         )
         assert 'results' in data, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` возвращаете данные '
+            'с пагинацией. '
             'Не найден параметр `results`'
         )
         assert data['count'] == 1, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` возвращаете данные '
+            'с пагинацией. '
             'Значение параметра `count` не правильное'
         )
         assert type(data['results']) == list, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` возвращаете данные '
+            'с пагинацией. '
             'Тип параметра `results` должен быть список'
         )
         assert (
@@ -79,7 +92,8 @@ class Test01UserAPI:
             and data['results'][0].get('username') == user_1.username
             and data['results'][0].get('email') == user_1.email
         ), (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` возвращаете данные '
+            'с пагинацией. '
             'Значение параметра `results` не правильное'
         )
         user_1_as_dict = {
@@ -92,7 +106,8 @@ class Test01UserAPI:
         }
         assert response.json()['results'] == [user_1_as_dict], (
             'Проверьте, что при GET запросе `/api/users/me/` '
-            'возвращается искомый пользователь со всеми необходимыми полями, включая `is_subscribed`'
+            'возвращается искомый пользователь со всеми необходимыми полями, '
+            'включая `is_subscribed`'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -101,10 +116,13 @@ class Test01UserAPI:
         search_url = f'{url}?search={user_1.id}'
         response = auth_client_1.get(search_url)
         assert response.status_code != 404, (
-            'Страница `/api/users/?search={id}` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/users/?search={id}` не найдена, проверьте этот '
+            'адрес в *urls.py*'
         )
         reponse_json = response.json()
-        assert 'results' in reponse_json and isinstance(reponse_json.get('results'), list), (
+        assert 'results' in reponse_json and isinstance(
+            reponse_json.get('results'), list
+        ), (
             'Проверьте, что при GET запросе `/api/users/?search={id}` '
             'результаты возвращаются под ключом `results` и в виде списка.'
         )
@@ -123,56 +141,69 @@ class Test01UserAPI:
         }
         assert reponse_json['results'] == [user_1_as_dict], (
             'Проверьте, что при GET запросе `/api/users/?search={id}` '
-            'возвращается искомый пользователь со всеми необходимыми полями, включая `is_subscribed`'
+            'возвращается искомый пользователь со всеми необходимыми полями, '
+            'включая `is_subscribed`'
         )
 
     @pytest.mark.django_db(transaction=True)
     def test_04_01_users_get_admin_only(self, auth_client_super):
         response = auth_client_super.get('/api/users/')
         assert response.status_code != 404, (
-            'Страница `/api/users/` не найдена, проверьте этот адрес в *urls.py*'
+            'Страница `/api/users/` не найдена, проверьте этот адрес в '
+            '*urls.py*'
         )
         assert response.status_code == 200, (
-            'Проверьте, что при GET запросе `/api/users/` от суперпользователя с токеном авторизации возвращается статус 200'
+            'Проверьте, что при GET запросе `/api/users/` от '
+            'суперпользователя с токеном авторизации возвращается статус 200'
         )
         data = response.json()
         assert 'count' in data, (
-            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от '
+            'суперпользователя возвращаете данные с пагинацией. '
             'Не найден параметр `count`'
         )
         assert 'next' in data, (
-            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от '
+            'суперпользователя возвращаете данные с пагинацией. '
             'Не найден параметр `next`'
         )
         assert 'previous' in data, (
-            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от '
+            'суперпользователя возвращаете данные с пагинацией. '
             'Не найден параметр `previous`'
         )
         assert 'results' in data, (
-            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от '
+            'суперпользователя возвращаете данные с пагинацией. '
             'Не найден параметр `results`'
         )
         assert data['count'] == 4, (
-            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от '
+            'суперпользователя возвращаете данные с пагинацией. '
             'Значение параметра `count` не правильное'
         )
         assert type(data['results']) == list, (
-            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от '
+            'суперпользователя возвращаете данные с пагинацией. '
             'Тип параметра `results` должен быть список'
         )
         assert (
             len(data['results']) == 4
         ), (
-            'Проверьте, что при GET запросе `/api/users/` от суперпользователя возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` от '
+            'суперпользователя возвращаете данные с пагинацией. '
             'Значение параметра `results` не правильное'
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_05_01_users_post_guest(self, client, auth_client_super, superuser):
+    def test_05_01_users_post_guest(
+        self, client, auth_client_super, superuser
+    ):
         empty_data = {}
         response = client.post('/api/users/', data=empty_data)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/users/` с пустыми данными возвращаетe 400'
+            'Проверьте, что при POST запросе `/api/users/` с пустыми данными '
+            'возвращаетe 400'
         )
         no_email_data = {
             'username': 'TestUser_noemail',
@@ -180,7 +211,8 @@ class Test01UserAPI:
         }
         response = client.post('/api/users/', data=no_email_data)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/users/` без email, возвращаетe статус 400'
+            'Проверьте, что при POST запросе `/api/users/` без email, '
+            'возвращаетe статус 400'
         )
         valid_email = 'valid_email@foodgram.cook'
         no_username_data = {
@@ -189,7 +221,8 @@ class Test01UserAPI:
         }
         response = client.post('/api/users/', data=no_username_data)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/users/` без username, возвращаетe статус 400'
+            'Проверьте, что при POST запросе `/api/users/` без username, '
+            'возвращаетe статус 400'
         )
         duplicate_email = {
             'username': 'TestSuperUser_duplicate',
@@ -197,7 +230,8 @@ class Test01UserAPI:
         }
         response = client.post('/api/users/', data=duplicate_email)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/users/` с уже существующим email, возвращаете статус 400. '
+            'Проверьте, что при POST запросе `/api/users/` с уже существующим'
+            'email, возвращаете статус 400. '
             '`Email` должен быть уникальный у каждого прользователя'
         )
         duplicate_username = {
@@ -206,7 +240,8 @@ class Test01UserAPI:
         }
         response = client.post('/api/users/', data=duplicate_username)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/users/` с уже существующим username, возвращаете статус 400. '
+            'Проверьте, что при POST запросе `/api/users/` с уже существующим'
+            'username, возвращаете статус 400. '
             '`Username` должен быть уникальный у каждого прользователя'
         )
         data = {
@@ -218,30 +253,37 @@ class Test01UserAPI:
         }
         response = client.post('/api/users/', data=data)
         assert response.status_code == 201, (
-            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращает 201.'
+            'Проверьте, что при POST запросе `/api/users/` с правильными '
+            'данными возвращает 201.'
         )
         response_data = response.json()
         assert response_data.get('first_name') == data['first_name'], (
-            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращаете `first_name`.'
+            'Проверьте, что при POST запросе `/api/users/` с правильными '
+            'данными возвращаете `first_name`.'
         )
         assert response_data.get('last_name') == data['last_name'], (
-            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращаете `last_name`.'
+            'Проверьте, что при POST запросе `/api/users/` с правильными '
+            'данными возвращаете `last_name`.'
         )
         assert response_data.get('username') == data['username'], (
-            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращаете `username`.'
+            'Проверьте, что при POST запросе `/api/users/` с правильными '
+            'данными возвращаете `username`.'
         )
         assert response_data.get('email') == data['email'], (
-            'Проверьте, что при POST запросе `/api/users/` с правильными данными возвращаете `email`.'
+            'Проверьте, что при POST запросе `/api/users/` с правильными '
+            'данными возвращаете `email`.'
         )
         User = get_user_model()
         users = User.objects.all()
         assert get_user_model().objects.count() == users.count(), (
-            'Проверьте, что при POST запросе `/api/users/` вы создаёте пользователей.'
+            'Проверьте, что при POST запросе `/api/users/` вы создаёте '
+            'пользователей.'
         )
         response = auth_client_super.get('/api/users/')
         data = response.json()
         assert len(data['results']) == 5, (
-            'Проверьте, что при GET запросе `/api/users/` возвращаете данные с пагинацией. '
+            'Проверьте, что при GET запросе `/api/users/` возвращаете '
+            'данные с пагинацией. '
             'Значение параметра `results` не правильное'
         )
 
@@ -258,17 +300,21 @@ class Test01UserAPI:
         }
         response = auth_client_super.post('/api/users/', data=valid_data)
         assert response.status_code == 201, (
-            'Проверьте, что при POST запросе `/api/users/` от суперпользователя, '
-            'с правильными данными, возвращаете статус 201.'
+            'Проверьте, что при POST запросе `/api/users/` от '
+            'суперпользователя, с правильными данными, возвращаете '
+            'статус 201.'
         )
         users_after = users.count()
         assert users_after == users_before + 1, (
-            'Проверьте, что при POST запросе `/api/users/` от суперпользователя, '
-            'с правильными данными, создается пользователь.'
+            'Проверьте, что при POST запросе `/api/users/` от '
+            'суперпользователя, с правильными данными, создается '
+            'пользователь.'
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_06_01_users_id_patch_admin(self, auth_client_super, auth_client_1, user_1):
+    def test_06_01_users_id_patch_admin(
+        self, auth_client_super, auth_client_1, user_1
+    ):
         data = {
             'first_name': 'NewFirstName',
             'last_name': 'NewLastName',
@@ -280,17 +326,23 @@ class Test01UserAPI:
         )
         test_data = get_user_model().objects.get(id=user_1.id)
         assert test_data.first_name == data['first_name'], (
-            'Проверьте, что при PATCH запросе `/api/users/{id}/` изменяете имя.'
+            'Проверьте, что при PATCH запросе `/api/users/{id}/` изменяете '
+            'имя.'
         )
         assert test_data.last_name == data['last_name'], (
-            'Проверьте, что при PATCH запросе `/api/users/{id}/` изменяете фамилию.'
+            'Проверьте, что при PATCH запросе `/api/users/{id}/` изменяете '
+            'фамилию.'
         )
-        response = auth_client_super.patch(f'/api/users/{user_1.id}/', data={'first_name': 'New2FirstName'})
+        response = auth_client_super.patch(
+            f'/api/users/{user_1.id}/', data={'first_name': 'New2FirstName'}
+        )
         assert response.status_code == 200, (
             'Проверьте, что при PATCH запросе `/api/users/{id}/` '
             'от суперпользователя можно изменить Имя пользователя'
         )
-        response = auth_client_super.patch(f'/api/users/{user_1.id}/', data={'last_name': 'NewLastName'})
+        response = auth_client_super.patch(
+            f'/api/users/{user_1.id}/', data={'last_name': 'NewLastName'}
+        )
         assert response.status_code == 200, (
             'Проверьте, что при PATCH запросе `/api/users/{id}/` '
             'от суперпользователя можно изменить Фамилию пользователя'
@@ -317,7 +369,8 @@ class Test01UserAPI:
         response = auth_client_1.patch('/api/users/me/', data=data)
         assert response.status_code == 200, (
             'Проверьте, что при PATCH запросе `/api/users/me/`, '
-            'пользователь может изменить свои данные, и возвращается статус 200'
+            'пользователь может изменить свои данные, и возвращается'
+            ' статус 200'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -325,16 +378,21 @@ class Test01UserAPI:
         users_before = get_user_model().objects.count()
         response = auth_client_1.delete(f'/api/users/{user_2.id}/')
         assert response.status_code == 403, (
-            'Проверьте, что при DELETE запросе `/api/users/{id}/` возвращаете статус 403'
+            'Проверьте, что при DELETE запросе `/api/users/{id}/` '
+            'возвращаете статус 403'
         )
         assert get_user_model().objects.count() == users_before, (
-            'Проверьте, что при DELETE запросе `/api/users/{id}/` не удаляете пользователя'
+            'Проверьте, что при DELETE запросе `/api/users/{id}/` '
+            'не удаляете пользователя'
         )
 
     @pytest.mark.django_db(transaction=True)
     def test_07_02_users_id_delete_super(self, auth_client_super, user_1):
         users_before = get_user_model().objects.count()
-        response = auth_client_super.delete(f'/api/users/{user_1.id}/', data={'current_password': 'TestPassword4'})
+        response = auth_client_super.delete(
+            f'/api/users/{user_1.id}/',
+            data={'current_password': 'TestPassword4'}
+        )
         code = 204
         assert response.status_code == code, (
             'Проверьте, что при DELETE запросе `/api/users/{id}/` '
