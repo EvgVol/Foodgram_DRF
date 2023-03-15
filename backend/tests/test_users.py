@@ -307,9 +307,9 @@ class Test01UserAPI:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_07_01_users_id_delete_users(self, auth_client_super, user_1):
+    def test_07_01_users_id_delete_users(self, auth_client_super, user_1, superuser):
         users_before = get_user_model().objects.count()
-        response = auth_client_super.delete(f'/api/users/{user_1.id}/')
+        response = auth_client_super.delete(f'/api/users/{user_1.id}/', data={'current_password': 'TestPassword4'})
         code = 204
         assert response.status_code == code, (
             'Проверьте, что при DELETE запросе `/api/users/{id}/` '
