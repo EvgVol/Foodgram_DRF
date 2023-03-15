@@ -2,7 +2,7 @@ import pytest
 from django.contrib.auth import get_user_model
 
 
-class Test01UserAPI:
+class Test03UserAPI:
 
     @pytest.mark.django_db(transaction=True)
     def test_01_users_not_authenticated(self, unauth_client):
@@ -244,6 +244,86 @@ class Test01UserAPI:
             'username, возвращаете статус 400. '
             '`Username` должен быть уникальный у каждого прользователя'
         )
+        unvalid_data_username = {
+            'username': (
+                'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooong '
+            ),
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'password': 'qwerty1123zxc',
+            'email': 'new_NEW_user@foodgram.cook'
+        }
+        response = client.post('/api/users/', data=unvalid_data_username)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` установлена '
+            'максимальная длина `username`'
+        )
+        unvalid_data_username_me = {
+            'username': 'me',
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'password': 'qwerty1123zxc',
+            'email': 'new_NEW_user@foodgram.cook'
+        }
+        response = client.post('/api/users/', data=unvalid_data_username_me)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` нельзя создать '
+            'пользователем с `username` = me'
+        )
+        unvalid_data_first_name = {
+            'username': 'Username',
+            'first_name': (
+                'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooong '
+            ),
+            'last_name': 'Last',
+            'password': 'qwerty1123zxc',
+            'email': 'new_NEW_user@foodgram.cook'
+        }
+        response = client.post('/api/users/', data=unvalid_data_first_name)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` установлена '
+            'максимальная длина `first_name`'
+        )
+        unvalid_data_last_name = {
+            'username': 'Username',
+            'first_name': 'First',
+            'last_name': (
+                'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooong '
+            ),
+            'password': 'qwerty1123zxc',
+            'email': 'new_NEW_user@foodgram.cook'
+        }
+        response = client.post('/api/users/', data=unvalid_data_last_name)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` установлена '
+            'максимальная длина `last_name`'
+        )
+        unvalid_data_email = {
+            'username':'Username',
+            'first_name': 'First',
+            'last_name': 'Last',
+            'password': 'qwerty1123zxc',
+            'email': (
+                'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'oooooooooooooooooooooooooooooooooooooooooooooooooo@ooon.com '
+            )
+        }
+        response = client.post('/api/users/', data=unvalid_data_email)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` установлена '
+            'максимальная длина `email`'
+        )
         data = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
@@ -309,6 +389,74 @@ class Test01UserAPI:
             'Проверьте, что при POST запросе `/api/users/` от '
             'суперпользователя, с правильными данными, создается '
             'пользователь.'
+        )
+        unvalid_data_username = {
+            'username': (
+                'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooong '
+            ),
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'password': 'qwerty1123zxc',
+            'email': 'new_NEW_user@foodgram.cook'
+        }
+        response = auth_client_super.post('/api/users/', data=unvalid_data_username)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` установлена '
+            'максимальная длина `username`'
+        )
+        unvalid_data_first_name = {
+            'username': 'Username',
+            'first_name': (
+                'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooong '
+            ),
+            'last_name': 'Last',
+            'password': 'qwerty1123zxc',
+            'email': 'new_NEW_user@foodgram.cook'
+        }
+        response = auth_client_super.post('/api/users/', data=unvalid_data_first_name)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` установлена '
+            'максимальная длина `first_name`'
+        )
+        unvalid_data_last_name = {
+            'username': 'Username',
+            'first_name': 'First',
+            'last_name': (
+                'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooong '
+            ),
+            'password': 'qwerty1123zxc',
+            'email': 'new_NEW_user@foodgram.cook'
+        }
+        response = auth_client_super.post('/api/users/', data=unvalid_data_last_name)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` установлена '
+            'максимальная длина `last_name`'
+        )
+        unvalid_data_email = {
+            'username':'Username',
+            'first_name': 'First',
+            'last_name': 'Last',
+            'password': 'qwerty1123zxc',
+            'email': (
+                'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo '
+                'oooooooooooooooooooooooooooooooooooooooooooooooooo@ooon.com '
+            )
+        }
+        response = auth_client_super.post('/api/users/', data=unvalid_data_email)
+        assert response.status_code == 400, (
+            'Проверьте, что при POST запросе `/api/users/` установлена '
+            'максимальная длина `email`'
         )
 
     @pytest.mark.django_db(transaction=True)

@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 
 
-class TestRequirements:
+class Test01Requirements:
 
     def test_requirements(self):
         try:

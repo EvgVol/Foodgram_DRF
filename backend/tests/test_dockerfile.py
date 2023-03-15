@@ -4,7 +4,7 @@ import re
 from django.conf import settings
 
 
-class TestDockerfile:
+class Test02Dockerfile:
 
     def test_dockerfile(self):
         try:
