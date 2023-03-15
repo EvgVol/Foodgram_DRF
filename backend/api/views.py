@@ -103,7 +103,8 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
             start_queryset.extend(
                 [ing for ing in cont_queryset if ing not in ingridients_set]
             )
-        return start_queryset
+            queryset = start_queryset
+        return queryset
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
