@@ -32,6 +32,7 @@ psycopg2-binary==2.9.5
 py==1.11.0
 pycparser==2.21
 PyJWT==2.1.0
+pytest==6.2.5
 pytest-cov==3.0.0
 pytest-django==4.5.2
 pytest-pythonpath==0.7.3
