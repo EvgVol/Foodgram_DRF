@@ -33,21 +33,19 @@ jobs:
   
     - name: Run tests with pytest
       run: |
-        pytest --cov=./ --cov-report=xml 
+        pytest --cov=./ --cov-report=xml
 
-  connect_and_push_to_codecov:
-    name: Upload coverage reports to Codecov
-    steps:
-      - uses: actions/checkout@master
-      - uses: codecov/codecov-action@v3
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.xml
+          files: ./coverage.xml,!./cache
           flags: pytest
+          name: foodgram-pytest-cov
           env_vars: OS,PYTHON
           fail_ci_if_error: true
           verbose: true
-
+  
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
