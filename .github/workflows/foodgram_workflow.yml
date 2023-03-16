@@ -36,10 +36,10 @@ jobs:
         pytest --cov=./ --cov-report=xml
 
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./coverage.xml,!./cache
+        files: coverage.xml
         flags: pytest
         name: foodgram-pytest-cov
         env_vars: OS,PYTHON
