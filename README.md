@@ -9,11 +9,16 @@
 [![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat-square&logo=Yandex.Cloud)](https://cloud.yandex.ru/)
 [![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)](https://www.django-rest-framework.org/)
 [![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![codecov](https://codecov.io/gh/EvgVol/foodgram-project-react/branch/master/graph/badge.svg?token=FKKAKXU90C)](https://codecov.io/gh/EvgVol/foodgram-project-react)
+
+#
 
 ## Описание
 Cервис для публикаций и обмена рецептами.
 
 Авторизованные пользователи могут подписываться на понравившихся авторов, добавлять рецепты в избранное, в покупки, скачивать список покупок. Неавторизованным пользователям доступна регистрация, авторизация, просмотр рецептов других пользователей.
+
+#
 
 ## Подготовка сервера
 
@@ -115,10 +120,52 @@ sudo docker-compose exec backend python manage.py importcsv
 
 Теперь проект доступен по адресу http://011.222.333.444/. 
 
+#
+
 ## Документация к API   
 Чтобы открыть документацию локально, запустите сервер и перейдите по ссылке:
 [http://localhost/api/docs/](http://localhost/api/docs/) или воспользуйтесь докой на моей сервере: [REDOC](http://130.193.41.225/api/docs/)
 
+#  
 
-# **Автор проекта: [Евгений Волочек](https://github.com/EvgVol)**
-## **Ревьюер: [Евгений Салахутдинов](https://github.com/EugeneSal)**
+## Покрытие тестами
+
+![codecov](https://codecov.io/gh/EvgVol/foodgram-project-react/branch/master/graphs/sunburst.svg?token=FKKAKXU90C)
+
+
+</b></details>
+<details>
+<summary>Что нужно сделать чтобы установить badge покрытие проекта тестами? </summary><br><b>
+
+* #### 1. Регистрируйтесь на сервисе: [codecov.io](https://codecov.io)
+
+
+* #### 2. Настраиваем интеграцию, добавляем шаг для отправки данных на сервис
+  #### Добавляем в секреты данного репозитория CODECOV_TOKEN
+  #### Ниже указан код который неободимо добавить в foodgram_workflow.yml (более полный пример см. [здесь](https://github.com/codecov/codecov-action#usage)):
+```bash
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml
+        flags: pytest
+        name: foodgram-pytest-cov
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
+        verbose: true
+```
+
+* #### 3. Как только сделаете pull request, можно получить анализ покрытия тестами на сервисе [codecov.io](https://codecov.io)
+
+
+</b></details>
+
+
+
+#            
+
+
+|Автор проекта|[Евгений Волочек](https://github.com/EvgVol)|
+|---|---|
+|Ревьюер|[Евгений Салахутдинов](https://github.com/EugeneSal)|
