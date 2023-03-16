@@ -37,7 +37,7 @@ class Test04TagAPI:
     def test_02_tags_prohibition_post_del_patch(
         self, client, auth_client_1, auth_client_super, tag_breakfast,
     ):
-        data ={
+        data = {
             "name": "dsfdfsdfdf",
             "color": "#0cd3a2",
             "slug": "sdfsfsdfsdfs"

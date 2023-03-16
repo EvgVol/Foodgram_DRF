@@ -1,6 +1,6 @@
 import pytest
 
-from recipes.models import Tag, Ingredient
+from recipes.models import Ingredient, Tag
 
 
 @pytest.fixture

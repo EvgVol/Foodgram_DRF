@@ -25,30 +25,30 @@ class Test06FollowingAPI:
         )
         data = response.json()
         assert 'count' in data, (
-            'Проверьте, что при GET запросе `/api/users/subscriptions/` возвращаете данные '
-            'с пагинацией. Не найден параметр `count`'
+            'Проверьте, что при GET запросе `/api/users/subscriptions/` '
+            'возвращаете данные с пагинацией. Не найден параметр `count`'
         )
         assert 'next' in data, (
-            'Проверьте, что при GET запросе `/api/users/subscriptions/` возвращаете данные '
-            'с пагинацией. '
-            'Не найден параметр `next`'
+            'Проверьте, что при GET запросе `/api/users/subscriptions/` '
+            'возвращаете данные с пагинацией. Не найден параметр `next`'
         )
         assert 'previous' in data, (
-            'Проверьте, что при GET запросе `/api/users/subscriptions/` возвращаете данные '
-            'с пагинацией. '
-            'Не найден параметр `previous`'
+            'Проверьте, что при GET запросе `/api/users/subscriptions/` '
+            'возвращаете данные с пагинацией. Не найден параметр `previous`'
         )
         assert 'results' in data, (
-            'Проверьте, что при GET запросе `/api/users/subscriptions/` возвращаете данные '
-            'с пагинацией. Не найден параметр `results`'
+            'Проверьте, что при GET запросе `/api/users/subscriptions/` '
+            'возвращаете данные с пагинацией. Не найден параметр `results`'
         )
         assert data['count'] == 0, (
-            'Проверьте, что при GET запросе `/api/users/subscriptions/` возвращаете данные '
-            'с пагинацией. Значение параметра `count` не правильное'
+            'Проверьте, что при GET запросе `/api/users/subscriptions/` '
+            'возвращаете данные с пагинацией. Значение параметра `count` '
+            'не правильное'
         )
         assert type(data['results']) == list, (
-            'Проверьте, что при GET запросе `/api/users/subscriptions/` возвращаете данные '
-            'с пагинацией. Тип параметра `results` должен быть список'
+            'Проверьте, что при GET запросе `/api/users/subscriptions/` '
+            'возвращаете данные пагинацией. Тип параметра `results` должен '
+            'быть список'
         )
 
     @pytest.mark.django_db(transaction=True)

@@ -38,7 +38,7 @@ class Test05IngredientAPI:
     def test_02_ingredients_prohibition_post_del_patch(
         self, client, auth_client_1, auth_client_super, ingredient_1,
     ):
-        data ={
+        data = {
             'name': 'test',
             'measurement_unit': 'test'
         }

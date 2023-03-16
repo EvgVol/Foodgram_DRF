@@ -308,7 +308,7 @@ class Test03UserAPI:
             'максимальная длина `last_name`'
         )
         unvalid_data_email = {
-            'username':'Username',
+            'username': 'Username',
             'first_name': 'First',
             'last_name': 'Last',
             'password': 'qwerty1123zxc',
@@ -353,8 +353,8 @@ class Test03UserAPI:
             'Проверьте, что при POST запросе `/api/users/` с правильными '
             'данными возвращаете `email`.'
         )
-        User = get_user_model()
-        users = User.objects.all()
+        user = get_user_model()
+        users = user.objects.all()
         assert get_user_model().objects.count() == users.count(), (
             'Проверьте, что при POST запросе `/api/users/` вы создаёте '
             'пользователей.'
@@ -402,7 +402,9 @@ class Test03UserAPI:
             'password': 'qwerty1123zxc',
             'email': 'new_NEW_user@foodgram.cook'
         }
-        response = auth_client_super.post('/api/users/', data=unvalid_data_username)
+        response = auth_client_super.post(
+            '/api/users/', data=unvalid_data_username
+        )
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/api/users/` установлена '
             'максимальная длина `username`'
@@ -419,7 +421,9 @@ class Test03UserAPI:
             'password': 'qwerty1123zxc',
             'email': 'new_NEW_user@foodgram.cook'
         }
-        response = auth_client_super.post('/api/users/', data=unvalid_data_first_name)
+        response = auth_client_super.post(
+            '/api/users/', data=unvalid_data_first_name
+        )
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/api/users/` установлена '
             'максимальная длина `first_name`'
@@ -436,13 +440,15 @@ class Test03UserAPI:
             'password': 'qwerty1123zxc',
             'email': 'new_NEW_user@foodgram.cook'
         }
-        response = auth_client_super.post('/api/users/', data=unvalid_data_last_name)
+        response = auth_client_super.post(
+            '/api/users/', data=unvalid_data_last_name
+        )
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/api/users/` установлена '
             'максимальная длина `last_name`'
         )
         unvalid_data_email = {
-            'username':'Username',
+            'username': 'Username',
             'first_name': 'First',
             'last_name': 'Last',
             'password': 'qwerty1123zxc',
@@ -453,7 +459,9 @@ class Test03UserAPI:
                 'oooooooooooooooooooooooooooooooooooooooooooooooooo@ooon.com '
             )
         }
-        response = auth_client_super.post('/api/users/', data=unvalid_data_email)
+        response = auth_client_super.post(
+            '/api/users/', data=unvalid_data_email
+        )
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/api/users/` установлена '
             'максимальная длина `email`'

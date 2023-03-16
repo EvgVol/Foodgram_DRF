@@ -1,28 +1,6 @@
 import pytest
 
 from rest_framework.test import APIClient
-from rest_framework.authtoken.models import Token
-
-
-# @pytest.fixture
-# def auth_client_1(user_1):
-#     token = Token.objects.get(user_1)
-#     client = APIClient()
-#     client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-
-
-# @pytest.fixture
-# def auth_client_2(user_2):
-#     token = Token.objects.get(user_2)
-#     client = APIClient()
-#     client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-
-
-# @pytest.fixture
-# def auth_client_3(user_3):
-#     token = Token.objects.get(user_3)
-#     client = APIClient()
-#     client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
 
 @pytest.fixture
