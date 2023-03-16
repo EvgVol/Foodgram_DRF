@@ -37,14 +37,14 @@ jobs:
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.xml,!./cache
-          flags: pytest
-          name: foodgram-pytest-cov
-          env_vars: OS,PYTHON
-          fail_ci_if_error: true
-          verbose: true
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml,!./cache
+        flags: pytest
+        name: foodgram-pytest-cov
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
+        verbose: true
   
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
