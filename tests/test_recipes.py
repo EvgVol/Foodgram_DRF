@@ -5,7 +5,9 @@ from recipes.models import Recipe
 class Test07RecipeAPI:
 
     @pytest.mark.django_db(transaction=True)
-    def test_01_recipe_get_users(self, client, auth_client_1, recipes, new_recipe):
+    def test_01_recipe_get_users(
+        self, client, auth_client_1, recipes
+    ):
         response  = client.get(recipes)
         assert response.status_code == 200, (
             f'Проверьте, что при GET запросе страница `{recipes}` '
