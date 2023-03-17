@@ -37,7 +37,9 @@ class Test06FollowingAPI:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_02_01_follow_post_auth_users(self, auth_client_1, user_1, user_2):
+    def test_02_01_follow_post_auth_users(
+        self, auth_client_1, user_1, user_2
+    ):
         response = auth_client_1.post(f'/api/users/{user_2.id}/subscribe/')
         assert response.status_code != 404, (
             'Страница `/api/users/subscriptions/` не найдена, проверьте'
@@ -109,6 +111,11 @@ class Test06FollowingAPI:
             'Проверьте, что при наличии подписки'
             ' страница `/api/users/{id}/subscribe/` возвращает статус 400'
         )
+        response = auth_client_1.delete(f'/api/users/{user_2.id}/subscribe/')
+        assert response.status_code == 204, (
+            'Проверьте, что при DELETE запросе и при наличии подписки'
+            ' страница `/api/users/{id}/subscribe/` возвращает статус 204'
+        )
         response = auth_client_1.post(f'/api/users/{user_1.id}/subscribe/')
         assert response.status_code == 400, (
             'Проверьте, что при авторизованный пользователь не может'
@@ -124,9 +131,17 @@ class Test06FollowingAPI:
             'этот адрес в *urls.py*'
         )
         assert response.status_code == 401, (
-            'Проверьте, что при DEL запросе от анонимного пользователя'
+            'Проверьте, что при DELETE запросе от анонимного пользователя'
             ' страница `/api/users/{id}/subscribe/` возвращает статус 401'
         )
 
+    @pytest.mark.django_db(transaction=True)
+    def test_04_follow_del_auth_users(self, auth_client_1, user_2):
+        response = auth_client_1.delete(f'/api/users/{user_2.id}/subscribe/')
+        assert response.status_code == 404 or 400, (
+            'Проверьте, что при DELETE запросе от авторизованного '
+            'пользователя страница `/api/users/{id}/subscribe/` '
+            'возвращает статус: `Объект не найден` или `Ошибка подписки`'
+        )
     
     

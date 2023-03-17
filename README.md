@@ -1,6 +1,5 @@
-# Foodgram
+# Foodgram - продуктовый помощник
 [![Foodgram](https://github.com/evgvol/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/evgvol//foodgram-project-react/actions/workflows/foodgram_workflow.yml)
-
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Nginx](https://img.shields.io/badge/-NGINX-464646?style=flat-square&logo=NGINX)](https://nginx.org/ru/)
 [![gunicorn](https://img.shields.io/badge/-gunicorn-464646?style=flat-square&logo=gunicorn)](https://gunicorn.org/)
@@ -11,9 +10,15 @@
 [![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![codecov](https://codecov.io/gh/EvgVol/foodgram-project-react/branch/master/graph/badge.svg?token=FKKAKXU90C)](https://codecov.io/gh/EvgVol/foodgram-project-react)
 
-#
-
-## Описание
+Дипломная работа по специальности Python-разработчик курса Яндекс.Практикум. Данная работа является заключительным этапом обучения. *
+В данной работе разработан бэкенд проекта согласно спецификации API. В репозитории есть папки frontend, backend, infra, tests:
+* В папке `frontend` — файлы, необходимые для сборки фронтенда приложения. 
+  ###### Одностраничное приложение на фреймворке [React](https://ru.reactjs.org/), предоставлен [Яндекс.Практикумом](https://practicum.yandex.ru/). 
+* В папке `infra` — конфигурационные файлы nginx и docker-compose.yml, необходимые для сборки всего проекта.
+* В папке `backend` — файлы, необходимые для сборки бэкенд приложения.
+* В папке `tests` — файлы, необходимые для тестирования бэкенд приложения.
+ 
+# Описание
 Cервис для публикаций и обмена рецептами.
 
 Авторизованные пользователи могут подписываться на понравившихся авторов, добавлять рецепты в избранное, в покупки, скачивать список покупок. Неавторизованным пользователям доступна регистрация, авторизация, просмотр рецептов других пользователей.
