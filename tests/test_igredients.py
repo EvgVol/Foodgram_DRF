@@ -34,6 +34,7 @@ class Test05IngredientAPI:
             'возвращается статус 200'
         )
 
+
     @pytest.mark.django_db(transaction=True)
     def test_02_ingredients_prohibition_post_del_patch(
         self, client, auth_client_1, auth_client_super, ingredient_1,

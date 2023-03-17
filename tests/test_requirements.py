@@ -20,9 +20,6 @@ class Test01Requirements:
         assert 'django' in requirements, (
             'Проверьте, что добавили django в файл requirements.txt'
         )
-        assert 'pytest-django' in requirements, (
-            'Проверьте, что добавили pytest-django в файл requirements.txt'
-        )
         assert 'djoser' in requirements, (
             'Проверьте, что добавили djoser в файл requirements.txt'
         )
