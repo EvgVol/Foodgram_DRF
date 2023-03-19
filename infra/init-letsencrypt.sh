@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(foodgram63.hopto.org www.foodgram63.hopto.org)
+domains=(foodgram63.hopto.org)
 rsa_key_size=4096
 data_path="./certbot"
 email="volochek93@yandex.ru" # Adding a valid address is strongly recommended
