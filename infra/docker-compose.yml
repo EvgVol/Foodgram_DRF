@@ -6,7 +6,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ../.env
+      - ../backend/.env
 
   backend:
     image: evol93/foodgram_backend:latest
@@ -17,12 +17,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ../.env
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.backend.rule=Host(`foodgram63.hopto.org`)'
-      - 'traefik.http.routers.backend.tls=true'
-      - 'traefik.http.routers.backend.tls.certresolver=lets-encrypt'
+      - ../backend/.env
 
   frontend:
     image: evol93/foodgram_frontend:latest
@@ -30,21 +25,20 @@ services:
       - ../frontend/:/app/result_build/
     depends_on:
       - backend
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.frontend.rule=Host(`foodgram63.hopto.org`)'
-      - 'traefik.http.routers.frontend.tls=true'
-      - 'traefik.http.routers.frontend.tls.certresolver=lets-encrypt'
 
-  traefik:
-    image: traefik:2.1
+  nginx:
+    image: nginx:1.19.3
     restart: always
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
     volumes:
-      - ./traefik:/etc/traefik
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../frontend/build:/usr/share/nginx/html/
+      - redoc:/usr/share/nginx/html/api/docs/
+      - static_value:/var/html/static/
+      - media_value:/var/html/media/
+    depends_on:
+      - frontend
 
 volumes:
   postgres_data:
