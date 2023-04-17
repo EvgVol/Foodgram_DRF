@@ -18,10 +18,9 @@
 * В папке `backend` — файлы, необходимые для сборки бэкенд приложения.
 * В папке `tests` — файлы, необходимые для тестирования бэкенд приложения.
  
-# Описание
-Cервис для публикаций и обмена рецептами.
-
-Авторизованные пользователи могут подписываться на понравившихся авторов, добавлять рецепты в избранное, в покупки, скачивать список покупок. Неавторизованным пользователям доступна регистрация, авторизация, просмотр рецептов других пользователей.
+# Descriptions
+Service for publishing and sharing recipes.
+Authorized users can subscribe to their favorite authors, add recipes to their favorites and shopping list, and download the shopping list. Unregistered users have access to registration, authorization, and viewing other users' recipes.
 
 #
 
