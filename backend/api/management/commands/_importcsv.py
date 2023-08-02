@@ -14,11 +14,12 @@ def import_csv():
     with open(
         os.path.join(FILE_DIR, 'ingredients.csv'), 'r', encoding='utf-8'
     ) as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
+        reader_ings = csv.reader(csvfile)
+        for row in reader_ings:
             name, measurement_unit = row
             Ingredient.objects.get_or_create(
-                name=name, measurement_unit=measurement_unit
+                name=name,
+                measurement_unit=measurement_unit
             )
         print(f'Файл {csvfile.name} загружен.')
 
