@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.db import models, transaction
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework import (exceptions, fields, relations, serializers, status,
-                            validators)
+from rest_framework import (exceptions, fields, relations, serializers,
+                            status, validators)
 
 from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
                             ShoppingCart, Tag)
@@ -38,7 +38,8 @@ class UsersSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(UsersSerializer):
-    """Сериализатор вывода авторов на которых подписан текущий пользователь."""
+    """Сериализатор вывода авторов на которых подписан текущий пользователь.
+    """
 
     recipes = serializers.SerializerMethodField(read_only=True)
     recipes_count = serializers.SerializerMethodField(read_only=True)
@@ -48,7 +49,8 @@ class FollowSerializer(UsersSerializer):
         read_only_fields = ('email', 'username', 'last_name', 'first_name',)
 
     def validate(self, data):
-        """Проверяем наличие подписки у пользователя и отсекаем самого себя."""
+        """Проверяем наличие подписки у пользователя и отсекаем самого себя.
+        """
         author = self.instance
         user = self.context.get('request').user
         if Follow.objects.filter(user=user, author=author).exists():
