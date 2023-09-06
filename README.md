@@ -30,7 +30,6 @@ POSTGRES_USER='postgres'
 POSTGRES_PASSWORD='postgres'
 DB_HOST='db'
 DB_PORT=5432
-MODE='production'
 HOST=011.222.333.444
 USER=admin
 PASSWORD=password
@@ -122,9 +121,34 @@ The project is now available at http://011.222.333.444/.
 [![example](https://raw.githubusercontent.com/EvgVol/foodgram_drf/master/animation.gif)]()
 #
 
+## The Chicken or the Egg?
+
+Download the script to your working directory as init-letsencrypt.sh:
+
+```bash
+cd infra/
+curl -L https://raw.githubusercontent.com/wmnnd/nginx-certbot/master/init-letsencrypt.sh > init-letsencrypt.sh
+```
+Edit the script to add in your domain(s) and your email address. If you’ve changed the directories of the shared Docker volumes, make sure you also adjust the data_path variable as well.
+
+Then run:
+```bash
+chmod +x init-letsencrypt.sh
+``` 
+and
+
+```bash
+sudo ./init-letsencrypt.sh
+```
+
+Everything is in place now. The initial certificates have been obtained and our containers are ready to launch. Simply run docker-compose up and enjoy your HTTPS-secured website or app.
+
+The project is now available at https://011.222.333.444/.
+
+
 ## Documentation to API   
 To open the documentation locally, start the server and follow the link:
-[[http://localhost/api/docs /](http://localhost/api/docs /) or use the board on my server: [REDOC](http://130.193.41.225/api/docs /)
+[[http://011.222.333.444/api/docs/](http://011.222.333.444/api/docs /) or use the board on my server: [REDOC](https://ifood.sytes.net/api/docs/)
 
 #  
 
