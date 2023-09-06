@@ -1,14 +1,17 @@
 # Foodgram - service for publishing and sharing recipes.
-[![Foodgram](https://github.com/evgvol/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/evgvol//foodgram-project-react/actions/workflows/foodgram_workflow.yml)
-[![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
+[![Certbot](https://img.shields.io/badge/-Certbot-003A6E?style=flat&logo=letsencrypt&logoColor=white)](https://certbot.eff.org/)
+[![Workflow](https://github.com/EvgVol/foodgram_drf/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/evgvol//foodgram_drf/actions/workflows/foodgram_workflow.yml)
+[![Python Version](https://img.shields.io/badge/Python-v3.11-blue)](https://www.python.org/downloads/release/python-3110/)
+[![Django](https://img.shields.io/badge/Django-v4.2-green)](https://docs.djangoproject.com/en/4.2/)
+[![Django Rest Framework](https://img.shields.io/badge/Django%20Rest%20Framework-v3.12-green)](https://www.django-rest-framework.org/)
 [![Nginx](https://img.shields.io/badge/-NGINX-464646?style=flat-square&logo=NGINX)](https://nginx.org/ru/)
-[![gunicorn](https://img.shields.io/badge/-gunicorn-464646?style=flat-square&logo=gunicorn)](https://gunicorn.org/)
-[![docker](https://img.shields.io/badge/-Docker-464646?style=flat-square&logo=docker)](https://www.docker.com/)
-[![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat-square&logo=GitHub%20actions)](https://github.com/features/actions)
-[![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat-square&logo=Yandex.Cloud)](https://cloud.yandex.ru/)
-[![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)](https://www.django-rest-framework.org/)
-[![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/-Docker-464646?style=flat-square&logo=docker)](https://www.docker.com/)
+[![Docker Compose](https://img.shields.io/badge/-Docker_Compose-384d54?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13.0-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Bootstrap Version](https://img.shields.io/badge/bootstrap-v4.3-orange)](https://getbootstrap.com/docs/4.3/getting-started/introduction/)
+[![HTML](https://img.shields.io/badge/HTML-v5-red)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 [![codecov](https://codecov.io/gh/EvgVol/foodgram-project-react/branch/master/graph/badge.svg?token=FKKAKXU90C)](https://codecov.io/gh/EvgVol/foodgram-project-react)
+
 
 # Descriptions
 Service for publishing and sharing recipes.
@@ -96,7 +99,7 @@ scp docker-compose machine.yml nginx.conf admin@011.222.333.444:/home/admin/
 ```
 ## Launch
 
-The git push command is the project workflow trigger. When executing the git push command, a set of jobs command blocks will be launched (see the file [Workflow](https://github.com/evgvol/websity-by-designer/actions/workflows/main.yml)). The following blocks will be executed sequentially:
+The git push command is the project workflow trigger. When executing the git push command, a set of jobs command blocks will be launched (see the file [Workflow](https://github.com/EvgVol/Foodgram_DRF/actions/workflows/foodgram_workflow.yml)). The following blocks will be executed sequentially:
 
 **build_and_push_to_docker_hub** - upon successful completion of the tests, an image is collected for the docker container and sent to DockerHub
 
@@ -148,7 +151,7 @@ The project is now available at https://011.222.333.444/.
 
 ## Documentation to API   
 To open the documentation locally, start the server and follow the link:
-[[http://011.222.333.444/api/docs/](http://011.222.333.444/api/docs /) or use the board on my server: [REDOC](https://ifood.sytes.net/api/docs/)
+[http://011.222.333.444/api/docs/](http://011.222.333.444/api/docs/) or use the board on my server: [REDOC](https://ifood.sytes.net/api/docs/)
 
 #  
 
@@ -161,7 +164,7 @@ To open the documentation locally, start the server and follow the link:
 <details>
 <summary>What do I need to do to install a badge covering a project with tests? </summary><br><b>
 
-*  #### 1. Register on the service: [codecov.io ](https://codecov.io )
+*  #### 1. Register on the service: [codecov.io](https://codecov.io)
 
 
 * #### 2. Configure integration, add a step to send data to the service
