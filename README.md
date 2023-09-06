@@ -8,8 +8,6 @@
 [![Docker](https://img.shields.io/badge/-Docker-464646?style=flat-square&logo=docker)](https://www.docker.com/)
 [![Docker Compose](https://img.shields.io/badge/-Docker_Compose-384d54?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13.0-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Bootstrap Version](https://img.shields.io/badge/bootstrap-v4.3-orange)](https://getbootstrap.com/docs/4.3/getting-started/introduction/)
-[![HTML](https://img.shields.io/badge/HTML-v5-red)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 [![codecov](https://codecov.io/gh/EvgVol/foodgram-project-react/branch/master/graph/badge.svg?token=FKKAKXU90C)](https://codecov.io/gh/EvgVol/foodgram-project-react)
 
 ```bash
