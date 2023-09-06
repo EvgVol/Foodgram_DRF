@@ -64,7 +64,6 @@ jobs:
             sudo echo DEBUG=${{ secrets.DEBUG }} >> .env
             sudo echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
-            sudo echo MODE=${{ secrets.MODE }} >> .env
 
             cd infra/
             sudo docker pull evol93/foodgram_backend:latest

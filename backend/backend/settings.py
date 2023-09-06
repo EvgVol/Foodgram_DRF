@@ -19,7 +19,7 @@ ALLOWED_HOSTS = config(
     default='127.0.0.1'
 )
 
-MODE = config('MODE', cast=str, default='dev')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -70,24 +70,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-if MODE == 'dev':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': config('DB_ENGINE'),
+        'NAME': config('DB_NAME'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT')
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': config('DB_ENGINE'),
-            'NAME': config('DB_NAME'),
-            'USER': config('POSTGRES_USER'),
-            'PASSWORD': config('POSTGRES_PASSWORD'),
-            'HOST': config('DB_HOST'),
-            'PORT': config('DB_PORT')
-        }
-    }
+}
 
 AUTH_USER_MODEL = 'users.User'
 
