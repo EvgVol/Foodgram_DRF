@@ -119,7 +119,7 @@ sudo docker-compose exec backend python manage.py importcsv
 ```
 
 The project is now available at http://011.222.333.444/.
-
+[![example](https://raw.githubusercontent.com/EvgVol/foodgram_drf/master/animation.gif)]()
 #
 
 ## Documentation to API   
