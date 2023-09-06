@@ -12,6 +12,57 @@
 [![HTML](https://img.shields.io/badge/HTML-v5-red)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 [![codecov](https://codecov.io/gh/EvgVol/foodgram-project-react/branch/master/graph/badge.svg?token=FKKAKXU90C)](https://codecov.io/gh/EvgVol/foodgram-project-react)
 
+```bash
+.
+│
+├─ .github                     # Github Actions configuration
+│   └─ workflows
+│       └─ foodgram_workflow.yml
+│
+├─ backend                     # Directory for the backend part of the project
+│   ├── users                  # Application related to users
+│   ├── recipes                # Application related to recipes
+│   ├── data                   # Static files for importing ingredients and tags
+│   ├── backend                # Root settings and project configurations
+│   ├── api                    # API endpoints, schemas, and serializers
+│   ├── manage.py              # Django management file
+│   ├── requirements.txt       # Dependencies for the project
+│   ├── Dockerfile             # Dockerfile for building the backend image
+│   ├── .gitkeep               # Empty file to keep the directory in Git
+│   └── .env                   # File with confidential settings
+│
+├─ frontend                    # Directory for the frontend part of the project
+│   ├── src                    # Main structure of React components
+│   ├── public                 # Public files, such as the source index.html
+│   ├── yarn.lock              # Dependencies and versions for yarn
+│   ├── package.json           # Configuration file for Node.js project
+│   └── Dockerfile             # Dockerfile for building the frontend image
+│
+├─ infra                       # Directory for infrastructure resources
+│   ├── docker-compose.yml     # File for local deployment of the project
+│   └── nginx.conf             # Configuration for the Nginx server
+│
+├─ tests                       # Directory for project tests
+│   ├── fixtures               # Fixtures for pytest
+│   ├── conftest.py            # Global pytest fixtures
+│   ├── test_dockerfile.py     # Tests for Dockerfile
+│   ├── test_favorite.py       # Tests for favorites
+│   ├── test_following.py      # Tests for subscriptions
+│   ├── test_ingredients.py    # Tests for ingredients
+│   ├── test_recipes.py        # Tests for recipes
+│   ├── test_requirements.py   # Tests for dependencies
+│   ├── test_shopping.py       # Tests for shopping lists
+│   ├── test_tags.py           # Tests for tags
+│   └── test_users.py          # Tests for users
+│
+├─ .coverage                   # Code coverage report file
+├─ .gitignore                  # File to specify Git ignored files/directories
+├─ LICENSE.md                  # Project license
+├─ pytest.ini                  # Configuration file for pytest
+├─ README.md                   # Description and instructions for the project
+└─ setup.cfg                   # Common settings for tools
+```
+
 
 # Descriptions
 Service for publishing and sharing recipes.
